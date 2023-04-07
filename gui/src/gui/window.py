@@ -24,13 +24,13 @@ class Page:
 
         return
 
-    def add_rect(self, size=(1, 1), position=(0, 0), colors=(0, 0, 0)):
+    def add_rect(self, size=(1, 1), position=(0, 0), color=(0, 0, 0)):
         mem = Memory()
 
         self.elements.append(RectElement(
             size=mem.window_size_percentage(size[0], size[1]),
             position=mem.window_size_percentage(position[0], position[1]),
-            color=colors,
+            color=color,
         ))
 
         return
