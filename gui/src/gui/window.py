@@ -100,7 +100,7 @@ class Page:
 
 class MainPage(Page):
     def __init__(self):
-        super().__init__("main")
+        super().__init__("main_page")
 
         colors = Config().colors
 
@@ -165,7 +165,7 @@ class MainPage(Page):
 
 class StudentListPage(Page):
     def __init__(self):
-        super().__init__("student_list")
+        super().__init__("student_list_page")
         colors = Config().colors
         mem = Memory()
 
