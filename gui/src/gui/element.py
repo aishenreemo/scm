@@ -9,6 +9,7 @@ class ElementType(Enum):
     RECT = 0
     IMAGE = 1
     TEXT = 2
+    WINDOW = 3
 
 
 class Element(Sprite):
@@ -104,5 +105,26 @@ class TextElement(Element):
         self.font = pygame.font.Font(self.family, self.pt)
         self.surface = self.font.render(self.text, True, self.color)
         self.size = self.surface.get_size()
+
+        return
+
+
+class WindowElement(Element):
+    def __init__(
+        self,
+        name,
+        size=(1, 1),
+        position=(0, 0),
+    ):
+        super().__init__(name, ElementType.WINDOW, size, position)
+        self.name = str(name)
+        self.elements = []
+        self.surface = Surface(self.size)
+
+        return
+
+    def flush(self):
+        for element in self.elements:
+            self.surface.blit(element.surface, element.position)
 
         return
