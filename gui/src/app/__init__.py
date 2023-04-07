@@ -7,7 +7,7 @@ from .command import (
     ChangePageCommand,
 )
 
-from ..gui import Display
+from ..ui import Display
 
 APP_FPS = 60
 APP_WINDOW_SIZE = (900, 650)
