@@ -1,0 +1,161 @@
+<html>
+    <head>
+        <title>SCC Registration</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="index.css">
+        <script src="index.js" defer></script>
+    </head>
+    <body>
+        <section class="sccr-intro">
+            <div class="sccr-intro-flex">
+                <div class="scc-logo-img">
+                    <img src="logo.png" alt="">
+                </div>
+                <button onclick="next_page()">
+                    REGISTER
+                </button>
+            </div>
+        </section>
+        <section class="sccr-dcp">
+            <div class="sccr-dcp-grid">
+                <div class="scc-logo-img">
+                    <img src="logo.png" alt="">
+                </div>
+                <div class="scc-info">
+                    Email: samuelchristiancollege@ymail.com<br>
+                    Landline Number: (046)-402-0725<br>
+                    Mobile Phone Number: 0916-729-5830<br>
+                    School Address: Samuel Christian College,<br>
+                    Brgy. Navarro, City of General Trias, Cavite<br>
+                </div>
+                <div class="scc-text">
+                    <div class="scc-text-box">
+                        <div class="scc-text-box-title">
+                            DATA PRIVACY CONTENT
+                        </div>
+                        <div class="scc-text-box-subtitle">
+                            Data Privacy Statement/Agreement
+                        </div>
+                        <div class="scc-text-box-body">
+                            Upon accessing the Samuel Christian College of General Trias, Inc. online form and entering your personal details you acknowledge, respect, and agree to the data collected, recorded, organized, updated, and consolidated that the information may be viewed, and disclosed by the SCC in accordance with any legal and regulatory standards and in compliance with the Republic Act No. 10173 (Act), also known as the "Data Privacy Act of 2012".
+                        </div>
+                        <div class="scc-text-box-btn">
+                            <button onclick="next_page()">I AGREE</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="sccr-shr">
+            <div class="scc-text-box">
+                <div class="scc-text-box-title">
+                    STUDENT HEALTH RECORD
+                </div>
+                <div class="scc-body">
+                    Dear Samuelian Parents,<br><br>
+                    One of the requirements in Samuel Christian College is the student's updated and complete medical data that we keep in the SCCGTI Clinic as part of the school health records.<br><br>
+                    Attached is a copy of the complete medical form. We would like to ask you to furnish us with data concerning your child's past illnesses, immunizations, surgeries (if any, and other health information that may be relevant to your child's health.<br><br>
+                    Rest assured that our medical team will also inform you of any significant findings concerning will be treated with the utmost confidentiality.<br><br>
+                    Thank you for your cooperation.<br><br>
+                    Sincerely,<br>
+                    Shearyl M. Cuaderno, RN<br>
+                    School Nurse<br>
+                </div>
+                <div class="scc-end">
+                    <button onclick="select_page(0)">CANCEL</button>
+                    <button onclick="next_page()">PROCEED</button>
+                </div>
+            </div>
+        </section>
+        <section class="sccr-form-section" method="post">
+            <form class="sccr-form">
+                <div class="scc-text-box-title">
+                    STUDENT DEMOGRAPHIC DATA
+                </div>
+                <div class="sccr-name">
+                    <label>Surname: </label>
+                    <input type="text" name="surname" value="">
+                    <label>First Name: </label>
+                    <input type="text" name="first_name" value="">
+                    <label>M.I.: </label>
+                    <input type="text" name="middle_initial" value="">
+                    <label>Suffix: </label>
+                    <input type="text" name="suffix" value="">
+                </div>
+                <div class="sccr-section">
+                    <label>Grade 7: </label>
+                    <input type="checkbox" name="is_7" value="7">
+                    <label>Grade 8: </label>
+                    <input type="checkbox" name="is_8" value="8">
+                    <label>Grade 9: </label>
+                    <input type="checkbox" name="is_9" value="9">
+                    <label>Grade 10: </label>
+                    <input type="checkbox" name="is_10" value="10">
+                    <label>Grade 11: </label>
+                    <input type="checkbox" name="is_11" value="11">
+                    <label>Grade 12: </label>
+                    <input type="checkbox" name="is_12" value="12">
+                    <label>Section: </label>
+                    <input type="text" name="section" value="">
+                </div>
+                <div class="sccr-address">
+                    <label>Address: </label>
+                    <input type="text" name="address" value="">
+                </div>
+                <div class="sccr-gender">
+                    <label>Male: </label>
+                    <input type="checkbox" name="is_male" value="">
+                    <label>Female: </label>
+                    <input type="checkbox" name="is_female" value="">
+                </div>
+                <div class="sccr-religion">
+                    <label>Religion: </label>
+                    <input type="text" name="religion" value="">
+                </div>
+                <div class="sccr-nationality">
+                    <label>Nationality: </label>
+                    <input type="text" name="nationality" value="">
+                </div>
+                <div class="sccr-birth-data">
+                    <label>Date of Birth: </label>
+                    <input type="date" name="birth_date" value="">
+                    <label>Place of Birth: </label>
+                    <input type="text" name="birth_place" value="">
+                </div>
+                <div class="sccr-contact-no">
+                    <label>Contact No: </label>
+                    <input type="number" name="contact" value="">
+                </div>
+                <div class="sccr-father-data">
+                    <label>Father: </label>
+                    <input type="text" name="father_name" value="">
+                    <label>Contact No: </label>
+                    <input type="number" name="father_contact" value="">
+                </div>
+                <div class="sccr-mother-data">
+                    <label>Mother: </label>
+                    <input type="text" name="mother_name" value="">
+                    <label>Contact No: </label>
+                    <input type="number" name="mother_contact" value="">
+                </div>
+                <div class="sccr-confirmation-message">
+                    <b>Annual Physical/Oral Health Examination Permission</b><br><br>
+                    I hereby give permission for my child to be assessed by the School Dentist for his/her oral health as well as the School Physician for his/her overall health as part of the student services offered by the school.<br><br>
+                    I also understand that all information obtained will be on file for recordkeeping.<br>
+                </div>
+                <div class="sccr-form-submit">
+                    <button type="button" onclick="on_submit()">Submit</button>
+                </div>
+                <div class="sccr-error">
+                </div>
+            </form>
+        </section>
+        <section class="sccr-thank-you-section">
+            <div class="sccr-thank-you">
+                THANK YOU!
+            </div>
+        </section>
+    </body>
+</html>
