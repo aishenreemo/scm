@@ -3,6 +3,7 @@ from ..app.memory import Memory
 from .element import (
     ImageElement,
     RectElement,
+    TextElement,
 )
 
 
@@ -50,6 +51,24 @@ class Page:
             size=mem.window_size_percentage(size[0], size[1]),
             position=mem.window_size_percentage(position[0], position[1]),
         ).rounded(width, border_radius, border_custom_radius, color))
+
+        return
+
+    def add_text(
+        self,
+        position=(0, 0),
+        color=(0, 0, 0),
+        text="Hello World",
+        pt=12
+    ):
+        mem = Memory()
+
+        self.elements.append(TextElement(
+            position=mem.window_size_percentage(position[0], position[1]),
+            color=color,
+            text=text,
+            pt=pt
+        ))
 
         return
 

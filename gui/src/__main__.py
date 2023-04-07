@@ -6,6 +6,8 @@ def main():
     app = App()
 
     pygame.init()
+    pygame.font.init()
+
     app.init()
 
     while app.running:

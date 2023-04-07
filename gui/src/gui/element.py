@@ -8,6 +8,7 @@ from enum import Enum
 class ElementType(Enum):
     RECT = 0
     IMAGE = 1
+    TEXT = 2
 
 
 class Element(Sprite):
@@ -78,5 +79,27 @@ class ImageElement(Element):
         self.path = path
         self.image = pygame.image.load(path)
         self.surface = pygame.transform.scale(self.image, self.size)
+
+        return
+
+
+class TextElement(Element):
+    def __init__(
+        self,
+        position=(0, 0),
+        color=(0, 0, 0),
+        text="Hello World",
+        pt=12,
+    ):
+        super().__init__(ElementType.TEXT, (1, 1), position)
+
+        self.family = pygame.font.get_default_font()
+        self.text = text
+        self.pt = pt
+
+        self.color = color
+        self.font = pygame.font.Font(self.family, self.pt)
+        self.surface = self.font.render(self.text, True, self.color)
+        self.size = self.surface.get_size()
 
         return
