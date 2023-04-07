@@ -167,6 +167,7 @@ class StudentListPage(Page):
     def __init__(self):
         super().__init__("student_list")
         colors = Config().colors
+        mem = Memory()
 
         self.add_image(
             "logo_small",
@@ -190,18 +191,67 @@ class StudentListPage(Page):
             color=colors["background"],
         )
 
+        # self.elements.append(RectElement(
+        #     name="search",
+        #     size=mem.window_size_percentage(0.5, 0.05),
+        #     position=mem.window_size_percentage(0.25, 0.12),
+        #     color=colors["normal"]["white"],
+        # ).rounded(1, color=colors["background"]))
+
+        self.elements.append(RectElement(
+            name="student_list_rect",
+            size=mem.window_size_percentage(0.5, 0.7),
+            position=mem.window_size_percentage(0.4, 0.25),
+            color=colors["normal"]["white"],
+        ).rounded(1, color=colors["background"]))
+
         self.add_rect(
-            name="search",
-            size=(0.5, 0.05),
-            position=(0.25, 0.12),
-            color=colors["bright"]["white"],
+            name="boys_title_rect",
+            size=(0.23, 0.05),
+            position=(0.41, 0.27),
+            color=colors["normal"]["blue"],
+        )
+
+        self.add_rounded_rect(
+            name="boys_rect",
+            size=(0.23, 0.6),
+            position=(0.41, 0.32),
+            color=colors["background"],
+            width=2
         )
 
         self.add_rect(
-            name="student_list_rect",
-            size=(0.5, 0.7),
-            position=(0.4, 0.25),
-            color=colors["bright"]["white"],
+            name="boys_title_rect",
+            size=(0.23, 0.05),
+            position=(0.41, 0.27),
+            color=colors["normal"]["blue"],
         )
+
+        self.add_rect(
+            name="boys_title_rect",
+            size=(0.23, 0.05),
+            position=(0.66, 0.27),
+            color=colors["normal"]["red"],
+        )
+
+        self.add_rounded_rect(
+            name="girls_rect",
+            size=(0.23, 0.6),
+            position=(0.66, 0.32),
+            color=colors["background"],
+            width=2
+        )
+
+        for i in range(0, 6):
+            rect = RectElement(
+                name="grade_" + str(i + 7) + "_rect",
+                size=mem.window_size_percentage(0.3, 0.1),
+                position=mem.window_size_percentage(0.05, 0.25 + (i * 0.12)),
+                color=colors["normal"]["white"],
+            )
+
+            rect.rounded(1, color=colors["normal"]["black"])
+
+            self.elements.append(rect)
 
         return
