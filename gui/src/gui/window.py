@@ -12,6 +12,13 @@ class Page:
         self.name = str(name)
         self.elements = []
 
+        self.add_image(
+            name="background",
+            size=(1, 1),
+            position=(0, 0),
+            path="assets/images/background.png"
+        )
+
         return
 
     def add_image(
@@ -97,13 +104,6 @@ class MainPage(Page):
 
         colors = Config().colors
 
-        self.add_image(
-            name="background",
-            size=(1, 1),
-            position=(0, 0),
-            path="assets/images/background.png"
-        )
-
         # add logo
         self.add_image(
             name="logo",
@@ -167,13 +167,6 @@ class StudentListPage(Page):
     def __init__(self):
         super().__init__("student_list")
         colors = Config().colors
-
-        self.add_image(
-            name="background",
-            size=(1, 1),
-            position=(0, 0),
-            path="assets/images/background.png"
-        )
 
         self.add_image(
             "logo_small",
