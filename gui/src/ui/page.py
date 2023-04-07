@@ -4,6 +4,7 @@ from .element import (
     ImageElement,
     RectElement,
     TextElement,
+    WindowElement,
 )
 
 
@@ -12,90 +13,17 @@ class Page:
         self.name = str(name)
         self.elements = []
 
-        self.add_image(
-            name="background",
-            size=(1, 1),
-            position=(0, 0),
-            path="assets/images/background.png"
-        )
+        ImageElement(
+            "background",
+            self.percent(100, 100),
+            self.percent(0, 0),
+            "assets/images/background.png",
+        ).add_to(self)
 
         return
 
-    def add_image(
-        self,
-        name="sample_element",
-        size=(1, 1),
-        position=(0, 0),
-        path=""
-    ):
-        mem = Memory()
-
-        self.elements.append(ImageElement(
-            name,
-            mem.window_size_percentage(size[0], size[1]),
-            mem.window_size_percentage(position[0], position[1]),
-            path
-        ))
-
-        return
-
-    def add_rect(
-         self,
-         name="sample_element",
-         size=(1, 1),
-         position=(0, 0),
-         color=(0, 0, 0)
-    ):
-        mem = Memory()
-
-        self.elements.append(RectElement(
-            name,
-            size=mem.window_size_percentage(size[0], size[1]),
-            position=mem.window_size_percentage(position[0], position[1]),
-            color=color,
-        ))
-
-        return
-
-    def add_rounded_rect(
-        self,
-        name="sample_element",
-        size=(1, 1),
-        position=(0, 0),
-        color=(0, 0, 0),
-        width=0,
-        border_radius=0,
-        border_custom_radius=(-1, -1, -1, -1)
-    ):
-        mem = Memory()
-
-        self.elements.append(RectElement(
-            name,
-            size=mem.window_size_percentage(size[0], size[1]),
-            position=mem.window_size_percentage(position[0], position[1]),
-        ).rounded(width, border_radius, border_custom_radius, color))
-
-        return
-
-    def add_text(
-        self,
-        name="sample_element",
-        position=(0, 0),
-        color=(0, 0, 0),
-        text="Hello World",
-        pt=12
-    ):
-        mem = Memory()
-
-        self.elements.append(TextElement(
-            name,
-            position=mem.window_size_percentage(position[0], position[1]),
-            color=color,
-            text=text,
-            pt=pt
-        ))
-
-        return
+    def percent(self, x, y):
+        return Memory().percent_ws(x, y)
 
 
 class MainPage(Page):
@@ -104,61 +32,60 @@ class MainPage(Page):
 
         colors = Config().colors
 
-        # add logo
-        self.add_image(
-            name="logo",
-            size=(0.5, 0.3),
-            position=(0.25, 0.05),
-            path="assets/images/logo.png"
+        ImageElement(
+            "logo",
+            self.percent(50, 30),
+            self.percent(25, 5),
+            "assets/images/logo.png",
+        ).add_to(self)
+
+        login_window = WindowElement(
+            "login_window",
+            self.percent(30, 50),
+            self.percent(35, 40),
         )
 
-        # add blue rect
-        self.add_rounded_rect(
-            name="login_rect",
-            size=(0.3, 0.5),
-            position=(0.35, 0.4),
-            color=colors["normal"]["blue"],
-            width=0,
-            border_radius=5
-        )
+        RectElement(
+            "login_rect",
+            login_window.percent(100, 100),
+            login_window.percent(0, 0),
+        ).rounded(0, 20, colors["normal"]["blue"]) \
+            .rounded(1, 20, colors["background"]) \
+            .add_to(login_window)
 
-        # add logo small
-        self.add_image(
+        ImageElement(
             "logo_small",
-            (0.175, 0.225),
-            (0.4125, 0.415),
-            "assets/images/logo_small.png"
-        )
+            login_window.percent(50, 40),
+            login_window.percent(25, 5),
+            "assets/images/logo_small.png",
+        ).add_to(login_window)
 
-        # add input rects and login button
-        for info in [
-            (
-                "username",
-                (0.25, 0.05),
-                (0.375, 0.655),
-                colors["normal"]["white"]
-            ),
-            (
-                "password",
-                (0.25, 0.05),
-                (0.375, 0.715),
-                colors["normal"]["white"]
-            ),
-            (
-                "login",
-                (0.15, 0.05),
-                (0.425, 0.780),
-                colors["bright"]["blue"]
-            )
-        ]:
-            self.add_rounded_rect(
-                name=info[0],
-                size=info[1],
-                position=info[2],
-                color=info[3],
-                width=0,
-                border_radius=2
-            )
+        RectElement(
+            "username",
+            login_window.percent(90, 8),
+            login_window.percent(5, 50),
+        ).rounded(0, 5, colors["normal"]["white"]) \
+            .rounded(1, 5, colors["background"]) \
+            .add_to(login_window)
+
+        RectElement(
+            "password",
+            login_window.percent(90, 8),
+            login_window.percent(5, 60),
+        ).rounded(0, 5, colors["normal"]["white"]) \
+            .rounded(1, 5, colors["background"]) \
+            .add_to(login_window)
+
+        RectElement(
+            "login_btn",
+            login_window.percent(60, 8),
+            login_window.percent(20, 70),
+        ).rounded(0, 5, colors["bright"]["blue"]) \
+            .rounded(1, 5, colors["background"]) \
+            .add_to(login_window)
+
+        login_window.flush()
+        login_window.add_to(self)
 
         return
 
@@ -166,92 +93,93 @@ class MainPage(Page):
 class StudentListPage(Page):
     def __init__(self):
         super().__init__("student_list_page")
+
         colors = Config().colors
-        mem = Memory()
 
-        self.add_image(
+        ImageElement(
             "logo_small",
-            (0.125, 0.175),
-            (0.025, 0.025),
+            self.percent(12.5, 17.5),
+            self.percent(02.5, 02.5),
             "assets/images/logo_small.png"
+        ).add_to(self)
+
+        TextElement(
+            "title",
+            self.percent(17.5, 5),
+            colors["background"],
+            "School Clinic Management System",
+            34
+        ).add_to(self)
+
+        RectElement(
+            "menu_btn",
+            self.percent(5, 5),
+            self.percent(90, 5),
+            colors["background"],
+        ).add_to(self)
+
+        RectElement(
+            "search",
+            self.percent(50, 5),
+            self.percent(25, 12),
+            colors["normal"]["white"]
+        ).rounded(1, 0, colors["background"]) \
+            .add_to(self)
+
+        info_window = WindowElement(
+            "info_window",
+            self.percent(50, 70),
+            self.percent(40, 25),
         )
 
-        self.add_text(
-            name="title",
-            position=(0.175, 0.05),
-            color=colors["background"],
-            text="School Clinic Management System",
-            pt=34
-        )
+        RectElement(
+            "info_rect",
+            info_window.percent(100, 100),
+            info_window.percent(0, 0),
+            colors["normal"]["white"]
+        ).rounded(1, 0, colors["background"]) \
+            .add_to(info_window)
 
-        self.add_rect(
-            name="menu",
-            size=(0.05, 0.05),
-            position=(0.9, 0.05),
-            color=colors["background"],
-        )
+        RectElement(
+            "boys_title_rect",
+            info_window.percent(46, 10),
+            info_window.percent(2, 2),
+            colors["normal"]["blue"]
+        ).rounded(1, 0, colors["background"]) \
+            .add_to(info_window)
 
-        # self.elements.append(RectElement(
-        #     name="search",
-        #     size=mem.window_size_percentage(0.5, 0.05),
-        #     position=mem.window_size_percentage(0.25, 0.12),
-        #     color=colors["normal"]["white"],
-        # ).rounded(1, color=colors["background"]))
+        RectElement(
+            "girls_title_rect",
+            info_window.percent(46, 10),
+            info_window.percent(52, 2),
+            colors["normal"]["magenta"]
+        ).rounded(1, 0, colors["background"]) \
+            .add_to(info_window)
 
-        self.elements.append(RectElement(
-            name="student_list_rect",
-            size=mem.window_size_percentage(0.5, 0.7),
-            position=mem.window_size_percentage(0.4, 0.25),
-            color=colors["normal"]["white"],
-        ).rounded(1, color=colors["background"]))
+        RectElement(
+            "boys_rect",
+            info_window.percent(46, 80),
+            info_window.percent(2, 15)
+        ).rounded(1, 0, colors["background"]) \
+            .add_to(info_window)
 
-        self.add_rect(
-            name="boys_title_rect",
-            size=(0.23, 0.05),
-            position=(0.41, 0.27),
-            color=colors["normal"]["blue"],
-        )
+        RectElement(
+            "girls_rect",
+            info_window.percent(46, 80),
+            info_window.percent(52, 15)
+        ).rounded(1, 0, colors["background"]) \
+            .add_to(info_window)
 
-        self.add_rounded_rect(
-            name="boys_rect",
-            size=(0.23, 0.6),
-            position=(0.41, 0.32),
-            color=colors["background"],
-            width=2
-        )
-
-        self.add_rect(
-            name="boys_title_rect",
-            size=(0.23, 0.05),
-            position=(0.41, 0.27),
-            color=colors["normal"]["blue"],
-        )
-
-        self.add_rect(
-            name="boys_title_rect",
-            size=(0.23, 0.05),
-            position=(0.66, 0.27),
-            color=colors["normal"]["red"],
-        )
-
-        self.add_rounded_rect(
-            name="girls_rect",
-            size=(0.23, 0.6),
-            position=(0.66, 0.32),
-            color=colors["background"],
-            width=2
-        )
+        info_window.flush()
+        info_window.add_to(self)
 
         for i in range(0, 6):
-            rect = RectElement(
-                name="grade_" + str(i + 7) + "_rect",
-                size=mem.window_size_percentage(0.3, 0.1),
-                position=mem.window_size_percentage(0.05, 0.25 + (i * 0.12)),
-                color=colors["normal"]["white"],
-            )
-
-            rect.rounded(1, color=colors["normal"]["black"])
-
-            self.elements.append(rect)
+            RectElement(
+                "grade_" + str(i + 7) + "_rect",
+                self.percent(30, 10),
+                self.percent(5, 25 + (i * 12)),
+                colors["normal"]["white"],
+            ).rounded(1, 0, colors["normal"]["black"]) \
+                .add_to(self)
 
         return

@@ -13,8 +13,8 @@ class Memory:
 
         return
 
-    def window_size_percentage(self, size_x, size_y):
+    def percent_ws(self, size_x, size_y):
         return (
-            self.window_size[0] * size_x,
-            self.window_size[1] * size_y
+            self.window_size[0] * (size_x / 100),
+            self.window_size[1] * (size_y / 100),
         )

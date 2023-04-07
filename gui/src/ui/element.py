@@ -15,6 +15,7 @@ class ElementType(Enum):
 class Element(Sprite):
     def __init__(self, name, type, size, position):
         super().__init__()
+
         self.name = name
         self.type = type
         self.size = size
@@ -26,6 +27,11 @@ class Element(Sprite):
         except ValueError as err:
             print("RectElement.__init__(size):", err)
             exit(1)
+
+        return
+
+    def add_to(self, window):
+        window.elements.append(self)
 
         return
 
@@ -57,8 +63,8 @@ class RectElement(Element):
         self,
         width=0,
         border_radius=0,
-        border_custom_radius=(-1, -1, -1, -1),
         color=None,
+        border_custom_radius=(-1, -1, -1, -1),
     ):
         pygame.draw.rect(
             self.surface,
@@ -119,7 +125,8 @@ class WindowElement(Element):
         super().__init__(name, ElementType.WINDOW, size, position)
         self.name = str(name)
         self.elements = []
-        self.surface = Surface(self.size)
+        self.surface = Surface(self.size).convert_alpha()
+        self.surface.fill([0, 0, 0, 0])
 
         return
 
@@ -128,3 +135,9 @@ class WindowElement(Element):
             self.surface.blit(element.surface, element.position)
 
         return
+
+    def percent(self, x, y):
+        return (
+            self.size[0] * (x / 100),
+            self.size[1] * (y / 100),
+        )

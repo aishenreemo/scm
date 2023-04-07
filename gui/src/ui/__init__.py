@@ -13,7 +13,7 @@ class Display:
 
     def init(self):
         self.pages = []
-        self.pointer = 1
+        self.pointer = 0
 
         self.pages.append(MainPage())
         self.pages.append(StudentListPage())
