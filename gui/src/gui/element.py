@@ -11,9 +11,18 @@ class ElementType(Enum):
 
 
 class Element(Sprite):
-    def __init__(self, type):
+    def __init__(self, type, size, position):
         super().__init__()
         self.type = type
+        self.size = size
+        self.position = position
+
+        try:
+            if size[0] <= 0 or size[1] <= 0:
+                raise ValueError("invalid size argument")
+        except ValueError as err:
+            print("RectElement.__init__(size):", err)
+            exit(1)
 
         return
 
@@ -25,18 +34,9 @@ class RectElement(Element):
         position=(0, 0),
         color=None,
     ):
-        super().__init__(ElementType.RECT)
-
-        try:
-            if size[0] <= 0 or size[1] <= 0:
-                raise ValueError("invalid size argument")
-        except ValueError as err:
-            print("RectElement.__init__(size):", err)
-            exit(1)
+        super().__init__(ElementType.RECT, size, position)
 
         self.color = color or [0, 0, 0, 0]
-        self.size = size
-        self.position = position
         self.surface = Surface(size).convert_alpha()
         self.rect = self.surface.get_rect()
 
@@ -73,17 +73,8 @@ class RectElement(Element):
 
 class ImageElement(Element):
     def __init__(self, size=(1, 1), position=(0, 0), path=""):
-        super().__init__(ElementType.IMAGE)
+        super().__init__(ElementType.IMAGE, size, position)
 
-        try:
-            if size[0] <= 0 or size[1] <= 0:
-                raise ValueError("invalid size argument")
-        except ValueError as err:
-            print("RectElement.__init__(size):", err)
-            exit(1)
-
-        self.size = size
-        self.position = position
         self.path = path
         self.image = pygame.image.load(path)
         self.surface = pygame.transform.scale(self.image, self.size)
