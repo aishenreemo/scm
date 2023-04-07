@@ -128,11 +128,43 @@ class MainPage(Page):
 class StudentListPage(Page):
     def __init__(self):
         super().__init__("student_list")
+        colors = Config().colors
 
         self.add_image(
             size=(1, 1),
             position=(0, 0),
             path="assets/images/background.png"
+        )
+
+        self.add_image(
+            (0.125, 0.175),
+            (0.025, 0.025),
+            "assets/images/logo_small.png"
+        )
+
+        self.add_text(
+            position=(0.175, 0.05),
+            color=colors["background"],
+            text="School Clinic Management System",
+            pt=34
+        )
+
+        self.add_rect(
+            size=(0.05, 0.05),
+            position=(0.9, 0.05),
+            color=colors["background"],
+        )
+
+        self.add_rect(
+            size=(0.5, 0.05),
+            position=(0.25, 0.12),
+            color=colors["bright"]["white"],
+        )
+
+        self.add_rect(
+            size=(0.5, 0.7),
+            position=(0.4, 0.25),
+            color=colors["bright"]["white"],
         )
 
         return
