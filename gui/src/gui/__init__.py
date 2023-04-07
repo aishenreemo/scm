@@ -1,4 +1,4 @@
-from .window import (
+from .page import (
     MainPage,
     StudentListPage,
 )
