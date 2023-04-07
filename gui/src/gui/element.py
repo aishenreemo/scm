@@ -12,8 +12,9 @@ class ElementType(Enum):
 
 
 class Element(Sprite):
-    def __init__(self, type, size, position):
+    def __init__(self, name, type, size, position):
         super().__init__()
+        self.name = name
         self.type = type
         self.size = size
         self.position = position
@@ -31,11 +32,12 @@ class Element(Sprite):
 class RectElement(Element):
     def __init__(
         self,
+        name,
         size=(1, 1),
         position=(0, 0),
         color=None,
     ):
-        super().__init__(ElementType.RECT, size, position)
+        super().__init__(name, ElementType.RECT, size, position)
 
         self.color = color or [0, 0, 0, 0]
         self.surface = Surface(size).convert_alpha()
@@ -73,8 +75,8 @@ class RectElement(Element):
 
 
 class ImageElement(Element):
-    def __init__(self, size=(1, 1), position=(0, 0), path=""):
-        super().__init__(ElementType.IMAGE, size, position)
+    def __init__(self, name, size=(1, 1), position=(0, 0), path=""):
+        super().__init__(name, ElementType.IMAGE, size, position)
 
         self.path = path
         self.image = pygame.image.load(path)
@@ -86,12 +88,13 @@ class ImageElement(Element):
 class TextElement(Element):
     def __init__(
         self,
+        name,
         position=(0, 0),
         color=(0, 0, 0),
         text="Hello World",
         pt=12,
     ):
-        super().__init__(ElementType.TEXT, (1, 1), position)
+        super().__init__(name, ElementType.TEXT, (1, 1), position)
 
         self.family = pygame.font.get_default_font()
         self.text = text

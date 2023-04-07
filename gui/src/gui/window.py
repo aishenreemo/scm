@@ -14,10 +14,17 @@ class Page:
 
         return
 
-    def add_image(self, size=(1, 1), position=(0, 0), path=""):
+    def add_image(
+        self,
+        name="sample_element",
+        size=(1, 1),
+        position=(0, 0),
+        path=""
+    ):
         mem = Memory()
 
         self.elements.append(ImageElement(
+            name,
             mem.window_size_percentage(size[0], size[1]),
             mem.window_size_percentage(position[0], position[1]),
             path
@@ -25,10 +32,17 @@ class Page:
 
         return
 
-    def add_rect(self, size=(1, 1), position=(0, 0), color=(0, 0, 0)):
+    def add_rect(
+         self,
+         name="sample_element",
+         size=(1, 1),
+         position=(0, 0),
+         color=(0, 0, 0)
+    ):
         mem = Memory()
 
         self.elements.append(RectElement(
+            name,
             size=mem.window_size_percentage(size[0], size[1]),
             position=mem.window_size_percentage(position[0], position[1]),
             color=color,
@@ -38,6 +52,7 @@ class Page:
 
     def add_rounded_rect(
         self,
+        name="sample_element",
         size=(1, 1),
         position=(0, 0),
         color=(0, 0, 0),
@@ -48,6 +63,7 @@ class Page:
         mem = Memory()
 
         self.elements.append(RectElement(
+            name,
             size=mem.window_size_percentage(size[0], size[1]),
             position=mem.window_size_percentage(position[0], position[1]),
         ).rounded(width, border_radius, border_custom_radius, color))
@@ -56,6 +72,7 @@ class Page:
 
     def add_text(
         self,
+        name="sample_element",
         position=(0, 0),
         color=(0, 0, 0),
         text="Hello World",
@@ -64,6 +81,7 @@ class Page:
         mem = Memory()
 
         self.elements.append(TextElement(
+            name,
             position=mem.window_size_percentage(position[0], position[1]),
             color=color,
             text=text,
@@ -80,6 +98,7 @@ class MainPage(Page):
         colors = Config().colors
 
         self.add_image(
+            name="background",
             size=(1, 1),
             position=(0, 0),
             path="assets/images/background.png"
@@ -87,6 +106,7 @@ class MainPage(Page):
 
         # add logo
         self.add_image(
+            name="logo",
             size=(0.5, 0.3),
             position=(0.25, 0.05),
             path="assets/images/logo.png"
@@ -94,6 +114,7 @@ class MainPage(Page):
 
         # add blue rect
         self.add_rounded_rect(
+            name="login_rect",
             size=(0.3, 0.5),
             position=(0.35, 0.4),
             color=colors["normal"]["blue"],
@@ -103,6 +124,7 @@ class MainPage(Page):
 
         # add logo small
         self.add_image(
+            "logo_small",
             (0.175, 0.225),
             (0.4125, 0.415),
             "assets/images/logo_small.png"
@@ -110,14 +132,30 @@ class MainPage(Page):
 
         # add input rects and login button
         for info in [
-            ((0.25, 0.05), (0.375, 0.655), colors["normal"]["white"]),
-            ((0.25, 0.05), (0.375, 0.715), colors["normal"]["white"]),
-            ((0.15, 0.05), (0.425, 0.780), colors["bright"]["blue"])
+            (
+                "username",
+                (0.25, 0.05),
+                (0.375, 0.655),
+                colors["normal"]["white"]
+            ),
+            (
+                "password",
+                (0.25, 0.05),
+                (0.375, 0.715),
+                colors["normal"]["white"]
+            ),
+            (
+                "login",
+                (0.15, 0.05),
+                (0.425, 0.780),
+                colors["bright"]["blue"]
+            )
         ]:
             self.add_rounded_rect(
-                size=info[0],
-                position=info[1],
-                color=info[2],
+                name=info[0],
+                size=info[1],
+                position=info[2],
+                color=info[3],
                 width=0,
                 border_radius=2
             )
@@ -131,18 +169,21 @@ class StudentListPage(Page):
         colors = Config().colors
 
         self.add_image(
+            name="background",
             size=(1, 1),
             position=(0, 0),
             path="assets/images/background.png"
         )
 
         self.add_image(
+            "logo_small",
             (0.125, 0.175),
             (0.025, 0.025),
             "assets/images/logo_small.png"
         )
 
         self.add_text(
+            name="title",
             position=(0.175, 0.05),
             color=colors["background"],
             text="School Clinic Management System",
@@ -150,18 +191,21 @@ class StudentListPage(Page):
         )
 
         self.add_rect(
+            name="menu",
             size=(0.05, 0.05),
             position=(0.9, 0.05),
             color=colors["background"],
         )
 
         self.add_rect(
+            name="search",
             size=(0.5, 0.05),
             position=(0.25, 0.12),
             color=colors["bright"]["white"],
         )
 
         self.add_rect(
+            name="student_list_rect",
             size=(0.5, 0.7),
             position=(0.4, 0.25),
             color=colors["bright"]["white"],
