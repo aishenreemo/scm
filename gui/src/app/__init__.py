@@ -42,8 +42,9 @@ class App:
         return
 
     def command(self, command_class, event):
-        if command_class.check(self, event):
-            instance = command_class(self, event)
+        opts = command_class.opts(self, event)
+        if not (opts is None):
+            instance = command_class(opts)
             self.cmd_queue.append(instance)
 
         return
