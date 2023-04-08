@@ -36,8 +36,8 @@ class MainPage(Page):
             "login_rect",
             login_window.percent(100, 100),
             login_window.percent(0, 0),
-        ).rounded(0, 20, colors["normal"]["blue"]) \
-            .rounded(1, 20, colors["background"]) \
+        ).draw(0, colors["normal"]["blue"], 20) \
+            .draw(1, colors["background"], 20) \
             .add_to(login_window)
 
         ImageElement(
@@ -51,24 +51,24 @@ class MainPage(Page):
             "username",
             login_window.percent(90, 8),
             login_window.percent(5, 50),
-        ).rounded(0, 5, colors["normal"]["white"]) \
-            .rounded(1, 5, colors["background"]) \
+        ).draw(0, colors["normal"]["white"], 5) \
+            .draw(1, colors["background"], 5) \
             .add_to(login_window)
 
         RectElement(
             "password",
             login_window.percent(90, 8),
             login_window.percent(5, 60),
-        ).rounded(0, 5, colors["normal"]["white"]) \
-            .rounded(1, 5, colors["background"]) \
+        ).draw(0, colors["normal"]["white"], 5) \
+            .draw(1, colors["background"], 5) \
             .add_to(login_window)
 
         RectElement(
             "login_btn",
             login_window.percent(60, 8),
             login_window.percent(20, 70),
-        ).rounded(0, 5, colors["bright"]["blue"]) \
-            .rounded(1, 5, colors["background"]) \
+        ).draw(0, colors["bright"]["blue"], 5) \
+            .draw(1, colors["background"], 5) \
             .add_to(login_window)
 
         login_window.flush()

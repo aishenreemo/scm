@@ -51,20 +51,15 @@ class RectElement(Element):
         self.surface = Surface(size).convert_alpha()
         self.rect = self.surface.get_rect()
 
-        self.fill()
+        self.draw()
 
         return
 
-    def fill(self, color=None):
-        self.surface.fill(color or self.color)
-
-        return self
-
-    def rounded(
+    def draw(
         self,
         width=0,
-        border_radius=0,
         color=None,
+        border_radius=0,
         border_custom_radius=(-1, -1, -1, -1),
     ):
         pygame.draw.rect(
