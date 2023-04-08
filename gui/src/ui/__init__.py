@@ -1,6 +1,8 @@
-from .pages.student_list_page import StudentListPage
-from .pages.student_info_page import StudentInfoPage
-from .pages.main_page import MainPage
+from .pages import (
+    MainPage,
+    StudentListPage,
+    StudentInfoPage,
+)
 
 
 class Display:

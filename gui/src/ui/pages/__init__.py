@@ -1,27 +1,11 @@
-from ...app.memory import Memory
-from ..element import ImageElement
+from .page import Page
+from .main_page import MainPage
+from .student_info_page import StudentInfoPage
+from .student_list_page import StudentListPage
 
-
-class Page:
-    def __init__(self, name):
-        self.name = str(name)
-        self.elements = []
-
-        ImageElement(
-            "background",
-            self.percent(100, 100),
-            self.percent(0, 0),
-            "assets/images/background.png",
-        ).add_to(self)
-
-        return
-
-    def percent(self, x, y):
-        return Memory().percent_ws(x, y)
-
-    def get_element(self, element_name):
-        for element in self.elements:
-            if element.name == element_name:
-                return element
-
-        return None
+__all__ = [
+    "Page",
+    "MainPage",
+    "StudentInfoPage",
+    "StudentListPage",
+]

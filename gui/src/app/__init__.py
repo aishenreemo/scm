@@ -1,11 +1,14 @@
-import pygame
+from pygame import display as pyg_display
+from pygame import event as pyg_event
+from pygame import time as pyg_time
+from pygame import key as pyg_key
 
 from .config import Config
 from .memory import Memory
-from .command import (
-    QuitCommand,
-    ChangePageCommand,
+from .commands import (
     ShowSectionListCommand,
+    ChangePageCommand,
+    QuitCommand,
 )
 
 from ..ui import Display
@@ -26,8 +29,8 @@ class App:
     def init(self):
         self.running = True
         self.cmd_queue = []
-        self.screen = pygame.display.set_mode(APP_WINDOW_SIZE)
-        self.clock = pygame.time.Clock()
+        self.screen = pyg_display.set_mode(APP_WINDOW_SIZE)
+        self.clock = pyg_time.Clock()
         self.delta = 0
 
         self.mem = Memory()
@@ -38,7 +41,7 @@ class App:
         self.cfg.init()
         self.gui.init()
 
-        pygame.key.set_repeat(APP_KEYDOWN_DELAY, APP_KEYDOWN_INTERVAL)
+        pyg_key.set_repeat(APP_KEYDOWN_DELAY, APP_KEYDOWN_INTERVAL)
 
         return
 
@@ -54,7 +57,7 @@ class App:
         if not self.running:
             return
 
-        for event in pygame.event.get():
+        for event in pyg_event.get():
             self.command(QuitCommand, event)
             self.command(ChangePageCommand, event)
             self.command(ShowSectionListCommand, event)
@@ -79,20 +82,19 @@ class App:
         if not self.running:
             return
 
-        try:
-            screen = self.gui.pages[self.gui.pointer]
+        if self.gui.pointer >= len(self.gui.pages):
+            print("warn: gui pointer overflow")
+            return
 
-            for element in screen.elements:
-                if not element.visible:
-                    continue
+        screen = self.gui.pages[self.gui.pointer]
 
-                self.screen.blit(element.surface, element.position)
+        for element in screen.elements:
+            if not element.visible:
+                continue
 
-            pygame.display.flip()
+            self.screen.blit(element.surface, element.position)
 
-        except IndexError as err:
-            print("screen_ptr:", err)
-            exit(1)
+        pyg_display.flip()
 
         return
 

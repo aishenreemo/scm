@@ -1,12 +1,12 @@
 from ...app.config import Config
-from ..element import (
+from ..elements import (
     ImageElement,
     TextElement,
     RectElement,
     WindowElement,
 )
 
-from . import Page
+from .page import Page
 
 
 class StudentInfoPage(Page):

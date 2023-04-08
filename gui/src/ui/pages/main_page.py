@@ -1,12 +1,12 @@
 from ...app.config import Config
-from ..element import (
+from ..elements import (
+    WindowElement,
     ImageElement,
     RectElement,
-    WindowElement,
-    TextElement
+    TextElement,
 )
 
-from . import Page
+from .page import Page
 
 
 class MainPage(Page):
