@@ -57,6 +57,14 @@ class StudentListPage(Page):
             ).draw(1, colors["normal"]["black"]) \
                 .add_to(self)
 
+            TextElement(
+                "grade_" + str(i + 7) + "_text",
+                self.percent(13, 28 + (i * 12)),
+                colors["background"],
+                "GRADE " + str(i + 7),
+                26,
+            ).add_to(self)
+
         return
 
     def student_list_init(self):
