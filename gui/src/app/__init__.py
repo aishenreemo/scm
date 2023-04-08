@@ -80,6 +80,9 @@ class App:
             screen = self.gui.pages[self.gui.pointer]
 
             for element in screen.elements:
+                if not element.visible:
+                    continue
+
                 self.screen.blit(element.surface, element.position)
 
             pygame.display.flip()

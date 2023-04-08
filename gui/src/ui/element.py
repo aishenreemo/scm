@@ -13,12 +13,13 @@ class ElementType(Enum):
 
 
 class Element(Sprite):
-    def __init__(self, name, type, size, position):
+    def __init__(self, name, type, size, position, visible=True):
         super().__init__()
 
         self.name = name
         self.type = type
         self.size = size
+        self.visible = visible
         self.position = position
 
         try:
@@ -121,9 +122,9 @@ class WindowElement(Element):
         name,
         size=(1, 1),
         position=(0, 0),
+        visible=True,
     ):
-        super().__init__(name, ElementType.WINDOW, size, position)
-        self.name = str(name)
+        super().__init__(name, ElementType.WINDOW, size, position, visible)
         self.elements = []
         self.surface = Surface(self.size).convert_alpha()
         self.surface.fill([0, 0, 0, 0])
@@ -132,6 +133,9 @@ class WindowElement(Element):
 
     def flush(self):
         for element in self.elements:
+            if not element.visible:
+                continue
+
             self.surface.blit(element.surface, element.position)
 
         return

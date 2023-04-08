@@ -1,7 +1,5 @@
-from .page import (
-    MainPage,
-    StudentListPage,
-)
+from .page.student_list_page import StudentListPage
+from .page.main_page import MainPage
 
 
 class Display:

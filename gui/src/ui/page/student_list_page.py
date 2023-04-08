@@ -1,93 +1,12 @@
-from ..app.config import Config
-from ..app.memory import Memory
-from .element import (
+from ...app.config import Config
+from ..element import (
     ImageElement,
-    RectElement,
     TextElement,
+    RectElement,
     WindowElement,
 )
 
-
-class Page:
-    def __init__(self, name):
-        self.name = str(name)
-        self.elements = []
-
-        ImageElement(
-            "background",
-            self.percent(100, 100),
-            self.percent(0, 0),
-            "assets/images/background.png",
-        ).add_to(self)
-
-        return
-
-    def percent(self, x, y):
-        return Memory().percent_ws(x, y)
-
-
-class MainPage(Page):
-    def __init__(self):
-        super().__init__("main_page")
-
-        colors = Config().colors
-
-        ImageElement(
-            "logo",
-            self.percent(50, 30),
-            self.percent(25, 5),
-            "assets/images/logo.png",
-        ).add_to(self)
-
-        login_window = WindowElement(
-            "login_window",
-            self.percent(30, 50),
-            self.percent(35, 40),
-        )
-
-        RectElement(
-            "login_rect",
-            login_window.percent(100, 100),
-            login_window.percent(0, 0),
-        ).rounded(0, 20, colors["normal"]["blue"]) \
-            .rounded(1, 20, colors["background"]) \
-            .add_to(login_window)
-
-        ImageElement(
-            "logo_small",
-            login_window.percent(50, 40),
-            login_window.percent(25, 5),
-            "assets/images/logo_small.png",
-        ).add_to(login_window)
-
-        RectElement(
-            "username",
-            login_window.percent(90, 8),
-            login_window.percent(5, 50),
-        ).rounded(0, 5, colors["normal"]["white"]) \
-            .rounded(1, 5, colors["background"]) \
-            .add_to(login_window)
-
-        RectElement(
-            "password",
-            login_window.percent(90, 8),
-            login_window.percent(5, 60),
-        ).rounded(0, 5, colors["normal"]["white"]) \
-            .rounded(1, 5, colors["background"]) \
-            .add_to(login_window)
-
-        RectElement(
-            "login_btn",
-            login_window.percent(60, 8),
-            login_window.percent(20, 70),
-        ).rounded(0, 5, colors["bright"]["blue"]) \
-            .rounded(1, 5, colors["background"]) \
-            .add_to(login_window)
-
-        login_window.flush()
-        login_window.add_to(self)
-
-        return
+from . import Page
 
 
 class StudentListPage(Page):
@@ -126,6 +45,12 @@ class StudentListPage(Page):
         ).rounded(1, 0, colors["background"]) \
             .add_to(self)
 
+        self.info_init()
+
+        return
+
+    def info_init(self):
+        colors = Config().colors
         info_window = WindowElement(
             "info_window",
             self.percent(50, 70),
