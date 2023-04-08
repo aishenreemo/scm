@@ -81,3 +81,42 @@ class ChangePageCommand(Command):
                     return 1
 
         return None
+
+
+class ShowSectionListCommand(Command):
+    def __init__(self, opts):
+        super().__init__(CommandType.CHANGE_PAGE)
+        self.grade_level = opts
+
+    def run(self, app):
+        window = app.gui.pages[1]
+        student_window = window.get_element("student_list_window")
+        section_window = window.get_element("section_list_window")
+        student_window.visible = False
+        section_window.visible = True
+
+    def opts(app, event):
+        if pygame.MOUSEBUTTONDOWN == event.type:
+            if app.gui.pointer == 1:
+                window = app.gui.pages[app.gui.pointer]
+
+                def is_valid(x):
+                    return (
+                        x.name.startswith("grade") and
+                        x.name.endswith("rect")
+                    )
+
+                def to_rect(x):
+                    return pygame.Rect(
+                        x.position[0],
+                        x.position[1],
+                        x.size[0],
+                        x.size[1],
+                    )
+
+                elements = list(filter(is_valid, window.elements))
+                rects = list(map(to_rect, elements))
+
+                for i in range(0, len(elements)):
+                    if rects[i].collidepoint(event.pos):
+                        return elements[i].name.split("_")[1]

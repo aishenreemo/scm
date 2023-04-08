@@ -5,6 +5,7 @@ from .memory import Memory
 from .command import (
     QuitCommand,
     ChangePageCommand,
+    ShowSectionListCommand,
 )
 
 from ..ui import Display
@@ -56,6 +57,7 @@ class App:
         for event in pygame.event.get():
             self.command(QuitCommand, event)
             self.command(ChangePageCommand, event)
+            self.command(ShowSectionListCommand, event)
 
         return
 
