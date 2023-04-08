@@ -30,11 +30,11 @@ class StudentListPage(Page):
             34
         ).add_to(self)
 
-        RectElement(
+        ImageElement(
             "menu_btn",
-            self.percent(5, 5),
+            self.percent(5, 6),
             self.percent(90, 5),
-            colors["background"],
+            "assets/images/menu.png",
         ).add_to(self)
 
         RectElement(
