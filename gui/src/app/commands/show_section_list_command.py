@@ -24,15 +24,8 @@ class ShowSectionListCommand(Command):
             if app.gui.pointer == 1:
                 window = app.gui.pages[app.gui.pointer]
 
-                elements = list(filter(
-                    ShowSectionListCommand.is_grade_level_element,
-                    window.elements
-                ))
-
-                rects = list(map(
-                    ShowSectionListCommand.element_to_rect,
-                    elements
-                ))
+                elements = list(filter(ShowSectionListCommand.is_grade_level_element, window.elements))
+                rects = list(map(ShowSectionListCommand.element_to_rect, elements))
 
                 for i in range(0, len(elements)):
                     if rects[i].collidepoint(event.pos):
@@ -40,16 +33,8 @@ class ShowSectionListCommand(Command):
 
     @staticmethod
     def is_grade_level_element(element):
-        return (
-            element.name.startswith("grade") and
-            element.name.endswith("rect")
-        )
+        return element.name.startswith("grade") and element.name.endswith("rect")
 
     @staticmethod
     def element_to_rect(x):
-        return pyg_rect.Rect(
-            x.position[0],
-            x.position[1],
-            x.size[0],
-            x.size[1],
-        )
+        return pyg_rect.Rect(x.position[0], x.position[1], x.size[0], x.size[1])

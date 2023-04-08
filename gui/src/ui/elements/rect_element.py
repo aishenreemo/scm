@@ -1,10 +1,7 @@
 from pygame.surface import Surface
 import pygame
 
-from .element import (
-    ElementType,
-    Element,
-)
+from .element import ElementType, Element
 
 
 class RectElement(Element):

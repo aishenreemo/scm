@@ -1,8 +1,5 @@
 from pygame.surface import Surface
-from .element import (
-    ElementType,
-    Element,
-)
+from .element import ElementType, Element
 
 
 class WindowElement(Element):

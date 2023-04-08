@@ -1,10 +1,7 @@
 from pygame.transform import scale
 from pygame.image import load
 
-from .element import (
-    ElementType,
-    Element,
-)
+from .element import ElementType, Element
 
 
 class ImageElement(Element):
