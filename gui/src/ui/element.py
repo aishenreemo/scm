@@ -140,3 +140,10 @@ class WindowElement(Element):
             self.size[0] * (x / 100),
             self.size[1] * (y / 100),
         )
+
+    def get_element(self, element_name):
+        for element in self.elements:
+            if element.name == element_name:
+                return element
+
+        return None

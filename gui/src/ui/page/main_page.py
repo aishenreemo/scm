@@ -3,6 +3,7 @@ from ..element import (
     ImageElement,
     RectElement,
     WindowElement,
+    TextElement
 )
 
 from . import Page
@@ -70,6 +71,14 @@ class MainPage(Page):
         ).draw(0, colors["bright"]["blue"], 5) \
             .draw(1, colors["background"], 5) \
             .add_to(login_window)
+
+        TextElement(
+            "login_text",
+            login_window.percent(42, 72),
+            colors["background"],
+            "LOGIN",
+            13,
+        ).add_to(login_window)
 
         login_window.flush()
         login_window.add_to(self)

@@ -18,3 +18,10 @@ class Page:
 
     def percent(self, x, y):
         return Memory().percent_ws(x, y)
+
+    def get_element(self, element_name):
+        for element in self.elements:
+            if element.name == element_name:
+                return element
+
+        return None

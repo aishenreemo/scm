@@ -65,4 +65,19 @@ class ChangePageCommand(Command):
                     return new_ptr
 
         elif pygame.MOUSEBUTTONDOWN == event.type:
-            return None
+            if app.gui.pointer == 0:
+                window = app.gui.pages[app.gui.pointer]
+                login_window = window.get_element("login_window")
+                login_rect = login_window.get_element("login_btn")
+
+                rect = pygame.Rect(
+                    login_rect.position[0] + login_window.position[0],
+                    login_rect.position[1] + login_window.position[1],
+                    login_rect.size[0],
+                    login_rect.size[1],
+                )
+
+                if rect.collidepoint(event.pos):
+                    return 1
+
+        return None
