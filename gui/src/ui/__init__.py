@@ -1,4 +1,5 @@
 from .page.student_list_page import StudentListPage
+from .page.student_info_page import StudentInfoPage
 from .page.main_page import MainPage
 
 
@@ -15,6 +16,7 @@ class Display:
 
         self.pages.append(MainPage())
         self.pages.append(StudentListPage())
+        self.pages.append(StudentInfoPage())
 
         return
 
