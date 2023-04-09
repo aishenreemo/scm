@@ -38,6 +38,7 @@ class App:
         self.gui = Display()
 
         self.mem.update()
+        self.mem.update_lazy()
         self.cfg.init()
         self.gui.init()
 

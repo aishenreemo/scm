@@ -1,4 +1,5 @@
 import pygame
+import requests
 
 
 class Memory:
@@ -10,6 +11,16 @@ class Memory:
 
     def update(self):
         self.window_size = pygame.display.get_surface().get_size()
+
+        return
+
+    def update_lazy(self):
+        try:
+            self.students = requests.get("http://localhost:3000/get").json()
+        except Exception as err:
+            self.students = []
+            print(err)
+            print("failed getting data using api, are you sure api is running?")
 
         return
 
