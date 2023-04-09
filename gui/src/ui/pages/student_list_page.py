@@ -92,6 +92,14 @@ class StudentListPage(Page):
         ).draw(1, colors["background"]) \
             .add_to(info_window)
 
+        TextElement(
+            "boys_title_text",
+            info_window.percent(16, 4),
+            colors["background"],
+            "BOYS",
+            24,
+        ).add_to(info_window)
+
         RectElement(
             "girls_title_rect",
             info_window.percent(46, 10),
@@ -99,6 +107,14 @@ class StudentListPage(Page):
             colors["normal"]["magenta"]
         ).draw(1, colors["background"]) \
             .add_to(info_window)
+
+        TextElement(
+            "girls_title_text",
+            info_window.percent(68, 4),
+            colors["background"],
+            "GIRLS",
+            24,
+        ).add_to(info_window)
 
         RectElement(
             "boys_rect",
