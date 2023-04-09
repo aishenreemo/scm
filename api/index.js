@@ -18,6 +18,12 @@ const client = new MongoClient(process.env.MONGO_DB_URL, {
 app.use(express.json());
 app.use(cors());
 
+app.get("/get", async (_, res) => {
+    let students = client.db("Main").collection("students");
+
+    res.send(await students.find({}).toArray())
+})
+
 app.post("/set", async (req, res) => {
     let output = { ok: true, msg: "Success" };
 
