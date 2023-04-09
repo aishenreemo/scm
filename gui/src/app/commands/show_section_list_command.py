@@ -1,6 +1,9 @@
 from pygame import locals as pyg_locals
 from pygame import rect as pyg_rect
 
+from ...ui.elements import TextElement
+from ..memory import Memory
+from ..config import Config
 from .command import (
     CommandType,
     Command,
@@ -9,15 +12,53 @@ from .command import (
 
 class ShowSectionListCommand(Command):
     def __init__(self, opts):
-        super().__init__(CommandType.CHANGE_PAGE)
+        super().__init__(CommandType.SHOW_SECTION_LIST_COMMAND)
         self.grade_level = opts
 
     def run(self, app):
+        memory = Memory()
+        config = Config()
         window = app.gui.pages[1]
         student_window = window.get_element("student_list_window")
         section_window = window.get_element("section_list_window")
         student_window.visible = False
         section_window.visible = True
+
+        memory.update_lazy()
+
+        elements = []
+        sections = []
+
+        for element in section_window.elements:
+            if not element.name.endswith("_rect"):
+                continue
+
+            elements.append(element)
+
+        i = 0
+        for student in memory.students:
+            section = student["section"]
+            if section in sections:
+                continue
+
+            if self.grade_level != (student["grade_level"] + 7):
+                continue
+
+            sections.append(section)
+            elements.append(TextElement(
+                section.lower() + "_item",
+                section_window.percent(6, 5 + i * 5),
+                config.colors["background"],
+                str(self.grade_level) + " " + section,
+                16,
+            ))
+
+            i += 1
+
+        section_window.elements = elements
+        section_window.flush()
+
+        return
 
     def opts(app, event):
         if pyg_locals.MOUSEBUTTONDOWN == event.type:
@@ -29,7 +70,7 @@ class ShowSectionListCommand(Command):
 
                 for i in range(0, len(elements)):
                     if rects[i].collidepoint(event.pos):
-                        return elements[i].name.split("_")[1]
+                        return int(elements[i].name.split("_")[1])
 
     @staticmethod
     def is_grade_level_element(element):

@@ -7,6 +7,7 @@ from .config import Config
 from .memory import Memory
 from .commands import (
     ShowSectionListCommand,
+    ShowStudentListCommand,
     ChangePageCommand,
     QuitCommand,
 )
@@ -62,6 +63,7 @@ class App:
             self.command(QuitCommand, event)
             self.command(ChangePageCommand, event)
             self.command(ShowSectionListCommand, event)
+            self.command(ShowStudentListCommand, event)
 
         return
 
