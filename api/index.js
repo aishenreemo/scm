@@ -24,6 +24,25 @@ app.get("/get", async (_, res) => {
     res.send(await students.find({}).toArray())
 })
 
+app.get("/sections/:grade_level", async (req, res) => {
+    let students = client.db("Main").collection("students");
+    let grade_level = parseInt(req.params.grade_level) - 7;
+
+    let output = await students.distinct("section", { grade_level })
+
+    res.send(output);
+})
+
+app.get("/students/:grade_level/:section", async (req, res) => {
+    let students = client.db("Main").collection("students");
+    let section = req.params.section;
+    let grade_level = parseInt(req.params.grade_level) - 7;
+
+    let output = await students.find({ section, grade_level }).toArray();
+
+    res.send(output);
+})
+
 app.post("/set", async (req, res) => {
     let output = { ok: true, msg: "Success" };
 
