@@ -493,6 +493,7 @@ class ShowStudentListCommand(Command):
                     13,
                     config.colors["background"],
                 ))
+                boys.last().id = student["_id"]
                 boys_count += 1
             else:
                 girls.elements.append(TextElement(
@@ -502,6 +503,7 @@ class ShowStudentListCommand(Command):
                     13,
                     config.colors["background"],
                 ))
+                girls.last().id = student["_id"]
                 girls_count += 1
 
         return
@@ -543,12 +545,41 @@ class ShowStudentListCommand(Command):
 class SelectStudentCommand(Command):
     def __init__(self, options):
         super().__init__(CommandType.SELECT_STUDENT)
-        self.name = options
+        self.id = options
         return
 
     def run(self):
         display = Display()
         display.change_page(PageType.STUDENT_INFO)
+
+        api_url = f"http://localhost:3000/student/{self.id}"
+        student = req_get(api_url).json()
+
+        data = display.page.element("data_rect")
+
+        def put(element, value):
+            rect = data.element(f"{element}_rect")
+            text = rect.element("text")
+            text.surface.fill(rect.color)
+            rect.flush()
+            text.text = value
+            text.flush()
+            rect.flush()
+            return
+
+        put("name", student["name"]["last"] + " " + student["name"]["first"] + " " + student["name"]["middle"] + " " + student["name"]["suffix"])
+        put("gender", "Male" if student["gender"] == 0 else "Female")
+        put("grade", str(student["grade_level"] + 7))
+        put("section", student["section"])
+        put("address", "N/A")
+        put("religion", "N/A")
+        put("nationality", "N/A")
+        put("date of birth", "N/A")
+        put("place of birth", "N/A")
+        put("father name", "N/A")
+        put("father contact no", "N/A")
+        put("mother name", "N/A")
+        put("mother contact no", "N/A")
 
         return
 
@@ -582,7 +613,7 @@ class SelectStudentCommand(Command):
                 if not rect.collidepoint(event.pos):
                     continue
 
-                return element.name.split("_")[:2]
+                return element.id
 
         return None
 
@@ -1163,6 +1194,13 @@ class StudentInfoPage(Page):
                 colors["foreground"],
             ))
             rect.last().draw(1, colors["background"])
+            rect.last().elements.append(TextElement(
+                "text",
+                rect.last().percent(2, 25),
+                "",
+                13,
+                colors["background"]
+            ))
 
         self.elements.append(rect)
 
