@@ -238,7 +238,9 @@ class CommandType(Enum):
     CHANGE_PAGE = 1
     SHOW_SECTION_LIST = 2
     SHOW_STUDENT_LIST = 3
-    LAST = 4
+    SELECT_STUDENT = 4
+    NAVIGATE_STUDENT_INFO_COMMAND = 5
+    LAST = 6
 
     @staticmethod
     def get_class(type):
@@ -250,6 +252,10 @@ class CommandType(Enum):
             return ShowSectionListCommand
         elif type == CommandType.SHOW_STUDENT_LIST.value:
             return ShowStudentListCommand
+        elif type == CommandType.SELECT_STUDENT.value:
+            return SelectStudentCommand
+        elif type == CommandType.NAVIGATE_STUDENT_INFO_COMMAND.value:
+            return NavigateStudentInfoCommand
         else:
             return None
 
@@ -489,15 +495,15 @@ class ShowStudentListCommand(Command):
 
     @staticmethod
     def options(event):
-        app = App()
+        display = Display()
 
         if pyg_locals.MOUSEBUTTONDOWN != event.type:
             return None
 
-        if app.display.page.type != PageType.STUDENT_LIST:
+        if display.page.type != PageType.STUDENT_LIST:
             return None
 
-        section_list = app.display.page.element("section_list")
+        section_list = display.page.element("section_list")
 
         if not section_list.visible:
             return None
@@ -519,6 +525,102 @@ class ShowStudentListCommand(Command):
                 int(element.text.split(" ")[0]),
                 str(element.text.split(" ")[1]),
             ]
+
+
+class SelectStudentCommand(Command):
+    def __init__(self, options):
+        super().__init__(CommandType.SELECT_STUDENT)
+        self.name = options
+        return
+
+    def run(self):
+        display = Display()
+        display.change_page(PageType.STUDENT_INFO)
+
+        return
+
+    @staticmethod
+    def options(event):
+        display = Display()
+
+        if pyg_locals.MOUSEBUTTONDOWN != event.type:
+            return None
+
+        if display.page.type != PageType.STUDENT_LIST:
+            return None
+
+        student_list = display.page.element("student_list")
+
+        if not student_list.visible:
+            return None
+
+        boys = student_list.element("boys")
+        girls = student_list.element("girls")
+
+        for container in [boys, girls]:
+            for element in container.elements:
+                rect = pyg_rect.Rect(
+                    element.position[0] + student_list.position[0] + container.position[0],
+                    element.position[1] + student_list.position[1] + container.position[1],
+                    element.size[0],
+                    element.size[1],
+                )
+
+                if not rect.collidepoint(event.pos):
+                    continue
+
+                return element.name.split("_")[:2]
+
+        return None
+
+
+class NavigateStudentInfoCommand(Command):
+    def __init__(self, options):
+        super().__init__(CommandType.NAVIGATE_STUDENT_INFO_COMMAND)
+        self.names = options[0]
+        self.name = options[1]
+
+        return
+
+    def run(self):
+        display = Display()
+
+        if self.name == "back":
+            display.change_page(PageType.STUDENT_LIST)
+            return
+
+        for name in self.names:
+            if name == "back":
+                continue
+
+            element = display.page.element(f"{name}_rect")
+            element.visible = True if element.name == f"{self.name}_rect" else False
+
+    @staticmethod
+    def options(event):
+        display = Display()
+
+        if pyg_locals.MOUSEBUTTONDOWN != event.type:
+            return None
+
+        if display.page.type != PageType.STUDENT_INFO:
+            return None
+
+        names = ["data", "record", "print", "delete", "back"]
+
+        for name in names:
+            element = display.page.element(name)
+            rect = pyg_rect.Rect(
+                element.position[0],
+                element.position[1],
+                element.size[0],
+                element.size[1],
+            )
+
+            if rect.collidepoint(event.pos):
+                return [names, name]
+
+        return None
 
 
 #########
@@ -786,6 +888,243 @@ class StudentListPage(Page):
 class StudentInfoPage(Page):
     def __init__(self):
         super().__init__(PageType.STUDENT_INFO)
+        colors = Config().colors
+
+        self.elements.append(ImageElement(
+            "logo",
+            self.percent(12.5, 17.5),
+            self.percent(02.5, 02.5),
+            "assets/images/logo_small.png"
+        ))
+
+        self.elements.append(TextElement(
+            "title",
+            self.percent(17.5, 5),
+            "School Clinic Management System",
+            34,
+            colors["background"],
+        ))
+
+        self.elements.append(ImageElement(
+            "menu",
+            self.percent(5, 6),
+            self.percent(90, 5),
+            "assets/images/menu.png",
+        ))
+
+        self.elements.append(RectElement(
+            "search",
+            self.percent(50, 5),
+            self.percent(25, 12),
+            colors["normal"]["white"]
+        ))
+        self.last().draw(1, colors["background"])
+
+        self.elements.append(RectElement(
+            "data",
+            self.percent(13, 8),
+            self.percent(4, 22),
+        ))
+        self.last().draw(0, colors["foreground"], 20)
+        self.last().draw(1, colors["background"], 20)
+        self.last().elements.append(TextElement(
+            "text",
+            self.last().percent(10, 40),
+            "SHOW DATA",
+            16,
+            colors["background"],
+        ))
+
+        self.elements.append(RectElement(
+            "record",
+            self.percent(21, 8),
+            self.percent(18, 22),
+        ))
+        self.last().draw(0, colors["foreground"], 20)
+        self.last().draw(1, colors["background"], 20)
+        self.last().elements.append(TextElement(
+            "text",
+            self.last().percent(10, 40),
+            "ADD/UPDATE RECORD",
+            14,
+            colors["background"],
+        ))
+
+        self.elements.append(RectElement(
+            "print",
+            self.percent(8, 8),
+            self.percent(40, 22),
+        ))
+        self.last().draw(0, colors["foreground"], 20)
+        self.last().draw(1, colors["background"], 20)
+        self.last().elements.append(TextElement(
+            "text",
+            self.last().percent(15, 40),
+            "PRINT",
+            16,
+            colors["background"],
+        ))
+
+        self.elements.append(RectElement(
+            "delete",
+            self.percent(9, 8),
+            self.percent(49, 22),
+        ))
+        self.last().draw(0, colors["foreground"], 20)
+        self.last().draw(1, colors["background"], 20)
+        self.last().elements.append(TextElement(
+            "text",
+            self.last().percent(10, 40),
+            "DELETE",
+            16,
+            colors["background"],
+        ))
+
+        self.elements.append(RectElement(
+            "back",
+            self.percent(7, 8),
+            self.percent(59, 22),
+        ))
+        self.last().draw(0, colors["foreground"], 20)
+        self.last().draw(1, colors["background"], 20)
+        self.last().elements.append(TextElement(
+            "text",
+            self.last().percent(10, 40),
+            "BACK",
+            16,
+            colors["background"],
+        ))
+
+        self.data_init(colors)
+        self.record_init(colors)
+        self.print_init(colors)
+        self.delete_init(colors)
+
+        return
+
+    def data_init(self, colors):
+        rect = RectElement(
+            "data_rect",
+            self.percent(90, 60),
+            self.percent(5, 35),
+            visible=True,
+        )
+        rect.draw(0, colors["foreground"])
+        rect.draw(1, colors["background"])
+
+        rect.elements.append(TextElement(
+            "title",
+            rect.percent(35, 5),
+            "DEMOGRAPHIC DATA",
+            24,
+            colors["background"],
+        ))
+
+        elements = [
+            "name",
+            "gender",
+            "grade",
+            "section",
+            "address",
+            "religion",
+            "nationality",
+            "date of birth",
+            "place of birth",
+            "father name",
+            "father contact no",
+            "mother name",
+            "mother contact no",
+        ]
+
+        for i, element_name in enumerate(elements):
+            rect.elements.append(TextElement(
+                element_name,
+                rect.percent(5, 18 + i * 6),
+                f"{element_name.upper()}:",
+                16,
+                colors["background"],
+            ))
+
+            text_width = rect.last().surface.get_width()
+            rect_size = rect.percent(90, 5)
+            rect_size = (rect_size[0] - text_width, rect_size[1])
+            rect_position = rect.percent(6, 18 + i * 6)
+            rect_position = (rect_position[0] + text_width, rect_position[1])
+
+            rect.elements.append(RectElement(
+                f"{element_name}_rect",
+                rect_size,
+                rect_position,
+                colors["foreground"],
+            ))
+            rect.last().draw(1, colors["background"])
+
+        self.elements.append(rect)
+
+        return
+
+    def record_init(self, colors):
+        rect = RectElement(
+            "record_rect",
+            self.percent(90, 60),
+            self.percent(5, 35),
+            visible=False,
+        )
+        rect.draw(0, colors["foreground"])
+        rect.draw(1, colors["background"])
+
+        rect.elements.append(TextElement(
+            "title",
+            rect.percent(35, 5),
+            "NOT YET IMPLEMENTED",
+            24,
+            colors["background"],
+        ))
+
+        self.elements.append(rect)
+
+        return
+
+    def print_init(self, colors):
+        rect = RectElement(
+            "print_rect",
+            self.percent(90, 60),
+            self.percent(5, 35),
+            visible=False,
+        )
+        rect.draw(0, colors["foreground"])
+        rect.draw(1, colors["background"])
+        rect.elements.append(TextElement(
+            "title",
+            rect.percent(35, 5),
+            "NOT YET IMPLEMENTED",
+            24,
+            colors["background"],
+        ))
+
+        self.elements.append(rect)
+
+        return
+
+    def delete_init(self, colors):
+        rect = RectElement(
+            "delete_rect",
+            self.percent(90, 60),
+            self.percent(5, 35),
+            visible=False,
+        )
+        rect.draw(0, colors["foreground"])
+        rect.draw(1, colors["background"])
+
+        rect.elements.append(TextElement(
+            "title",
+            rect.percent(35, 5),
+            "NOT YET IMPLEMENTED",
+            24,
+            colors["background"],
+        ))
+
+        self.elements.append(rect)
 
         return
 
