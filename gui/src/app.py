@@ -240,7 +240,8 @@ class CommandType(Enum):
     SHOW_STUDENT_LIST = 3
     SELECT_STUDENT = 4
     NAVIGATE_STUDENT_INFO_COMMAND = 5
-    LAST = 6
+    INPUT_COMMAND = 6
+    LAST = 7
 
     @staticmethod
     def get_class(type):
@@ -256,6 +257,8 @@ class CommandType(Enum):
             return SelectStudentCommand
         elif type == CommandType.NAVIGATE_STUDENT_INFO_COMMAND.value:
             return NavigateStudentInfoCommand
+        elif type == CommandType.INPUT_COMMAND.value:
+            return InputCommand
         else:
             return None
 
@@ -324,22 +327,32 @@ class ChangePageCommand(Command):
         # check if user clicked the mouse
         if pyg_locals.MOUSEBUTTONDOWN == event.type:
             # if the page is not LOGIN page
-            if app.display.page.type != PageType.LOGIN:
-                return
+            if app.display.page.type == PageType.LOGIN:
+                window = app.display.page.element("login")
+                button = window.element("button")
 
-            window = app.display.page.element("login")
-            button = window.element("button")
+                rect = pyg_rect.Rect(
+                    button.position[0] + window.position[0],
+                    button.position[1] + window.position[1],
+                    button.size[0],
+                    button.size[1],
+                )
 
-            rect = pyg_rect.Rect(
-                button.position[0] + window.position[0],
-                button.position[1] + window.position[1],
-                button.size[0],
-                button.size[1],
-            )
+                # if user clicked the login button
+                if rect.collidepoint(event.pos):
+                    return PageType.STUDENT_LIST
 
-            # if user clicked the login button
-            if rect.collidepoint(event.pos):
-                return PageType.STUDENT_LIST
+            else:
+                button = app.display.page.element("menu")
+                rect = pyg_rect.Rect(
+                    button.position[0],
+                    button.position[1],
+                    button.size[0],
+                    button.size[1],
+                )
+
+                if rect.collidepoint(event.pos):
+                    return PageType.LOGIN
 
         if not app.config.debug:
             return None
@@ -623,6 +636,80 @@ class NavigateStudentInfoCommand(Command):
         return None
 
 
+class InputCommand(Command):
+    def __init__(self, options):
+        super().__init__(CommandType.INPUT_COMMAND)
+        self.element = options[0]
+        self.letter = options[1]
+        self.backspace = options[2]
+        self.enter = options[3]
+
+        return
+
+    def run(self):
+        if self.letter is not None and self.element is not None:
+            text = self.element.element("text")
+            text.text += self.letter
+            text.flush()
+            return
+
+        if self.backspace and self.element is not None:
+            text = self.element.element("text")
+            text.text = text.text[:-1]
+            text.surface.fill(self.element.color)
+            self.element.flush()
+            text.flush()
+            self.element.flush()
+
+            return
+
+        if self.enter and self.element is not None:
+            self.element.active = False
+
+            return
+
+        if self.element is not None:
+            self.element.active = True
+
+            return
+
+        return
+
+    @staticmethod
+    def options(event):
+        display = Display()
+
+        if display.page.type not in [PageType.LOGIN]:
+            return None
+
+        login = display.page.element("login")
+        names = ["username", "password"]
+
+        for name in names:
+            element = login.element(name)
+
+            if pyg_locals.MOUSEBUTTONDOWN == event.type:
+                rect = pyg_rect.Rect(
+                    element.position[0] + login.position[0],
+                    element.position[1] + login.position[1],
+                    element.size[0],
+                    element.size[1],
+                )
+
+                if rect.collidepoint(event.pos):
+                    return [element, None, False, False]
+
+            elif pyg_locals.KEYDOWN == event.type and element.active:
+                if event.key == pyg_locals.K_RETURN:
+                    return [element, None, False, True]
+                elif event.key == pyg_locals.K_BACKSPACE:
+                    return [element, None, True, False]
+                else:
+                    return [element, event.unicode, False, False]
+
+        return None
+
+
 #########
 # PAGES #
 #########
@@ -717,16 +804,34 @@ class LoginPage(Page):
             login.percent(90, 8),
             login.percent(5, 50),
         ))
+        login.last().active = False
+        login.last().color = colors["normal"]["white"]
         login.last().draw(0, colors["normal"]["white"], 5)
         login.last().draw(1, colors["background"], 5)
+        login.last().elements.append(TextElement(
+            "text",
+            login.last().percent(5, 20),
+            "",
+            12,
+            colors["background"],
+        ))
 
         login.elements.append(RectElement(
             "password",
             login.percent(90, 8),
             login.percent(5, 60),
         ))
+        login.last().active = False
+        login.last().color = colors["normal"]["white"]
         login.last().draw(0, colors["normal"]["white"], 5)
         login.last().draw(1, colors["background"], 5)
+        login.last().elements.append(TextElement(
+            "text",
+            login.last().percent(5, 20),
+            "",
+            12,
+            colors["background"],
+        ))
 
         login.elements.append(RectElement(
             "button",
@@ -1221,11 +1326,15 @@ class TextElement(Element):
         self.family = pyg_font.get_default_font()
         self.text = text
         self.points = points
-
         self.color = color
+        self.flush()
+
+        return
+
+    def flush(self):
         self.font = pyg_font.Font(self.family, self.points)
-        self.surface = self.font.render(self.text, False, self.color)
-        self.size = (self.surface.get_width(), self.surface.get_height())
+        self.surface = self.font.render(self.text, False, self.color).convert_alpha()
+        self.size = self.surface.get_size()
 
         return
 
