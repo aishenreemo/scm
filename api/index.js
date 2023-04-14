@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 
-import { MongoClient, ServerApiVersion } from "mongodb";
+import { MongoClient, ObjectId, ServerApiVersion } from "mongodb";
 
 dotenv.config();
 
@@ -39,6 +39,15 @@ app.get("/students/:grade_level/:section", async (req, res) => {
     let grade_level = parseInt(req.params.grade_level) - 7;
 
     let output = await students.find({ section, grade_level }).toArray();
+
+    res.send(output);
+})
+
+app.get("/student/:id", async (req, res) => {
+    let students = client.db("Main").collection("students");
+    let _id = req.params.id;
+
+    let output = await students.findOne({ _id: new ObjectId(_id) });
 
     res.send(output);
 })
