@@ -151,7 +151,7 @@ img {
     padding: 0.5em;
 }
 
-.header > button {
+.header > .menu {
     position: absolute;
     left: 90%;
     top: 5%;
@@ -159,6 +159,24 @@ img {
 
 .header > .search > input {
     width: 40vw;
+}
+
+.header > .options {
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 0.5em;
+    display: none; /* to be changed to flex */
+    flex-direction: column;
+    gap: 0.5em;
+    align-items: center;
+    position: absolute;
+    top: 11%;
+    left: 80%;
+    padding: 0.5em;
+}
+
+.header > .options > button {
+    width: 100%;
 }
 
 .student-list-window,

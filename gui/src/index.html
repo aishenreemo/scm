@@ -8,7 +8,7 @@
     </head>
     <body>
         <img src="background.png" alt="background" class="background unselectable">
-        <div class="login-page invisible">
+        <div class="login-page">
             <img src="logo.png" alt="logo" class="logo center unselectable">
             <div class="login center">
                 <img src="logo_small.png" alt="logo_small" class="logo center unselectable">
@@ -18,11 +18,17 @@
                 <div class="error center"></div>
             </div>
         </div>
-        <div class="main-page">
+        <div class="main-page invisible">
             <div class="header unselectable">
                 <img src="logo_small.png" alt="logo_small" class="logo left">
                 <div class="title">School Clinic Management System</div>
-                <button type="button" onclick="logout()">☰</button>
+                <div class="menu">
+                    <button type="button" onclick="toggleMenu()">☰</button>
+                </div>
+                <div class="options">
+                    <button type="button" onclick="deleteAll()">DELETE ALL</button>
+                    <button type="button" onclick="logout()">LOGOUT</button>
+                </div>
                 <div class="search unselectable">
                     <input type="search" placeholder="search for students">
                     <button type="button" onclick="search()">search</button>

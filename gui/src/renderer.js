@@ -48,6 +48,18 @@ function login() {
 function logout() {
     loginPage.classList.remove("invisible");
     mainPage.classList.add("invisible");
+
+    let panes = [ ".data", ".record", ".print", ".delete" ].map(selectPane);
+
+    for (let i = 0; i < panes.length; i++) {
+        let pane = panes[i];
+
+        pane.classList.add("invisible");
+
+        if (i == MENU_TYPE.Data) {
+            pane.classList.remove("invisible");
+        }
+    }
 }
 
 function validateCredentials() {
@@ -201,5 +213,15 @@ async function search() {
         button.addEventListener("click", studentOnClick);
 
         rect.appendChild(button);
+    }
+}
+
+function toggleMenu() {
+    let options = mainPage.querySelector(".header > .options");
+
+    if (options.style.display == "flex") {
+        options.style.display = "none";
+    } else {
+        options.style.display = "flex";
     }
 }
