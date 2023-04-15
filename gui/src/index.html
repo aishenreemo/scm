@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>School Clinic Management System</title>
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" href="index.css"/>
+        <script defer src="renderer.js"></script>
+    </head>
+    <body>
+        <img src="background.png" alt="background" class="background unselectable">
+        <div class="login-page">
+            <img src="logo.png" alt="logo" class="logo center unselectable">
+            <div class="login center">
+                <img src="logo_small.png" alt="logo_small" class="logo center unselectable">
+                <input type="text" placeholder="username" value="" class="username center">
+                <input type="password" placeholder="password" value="" class="password center">
+                <button type="button" class="center unselectable" onclick="login()">LOGIN</button>
+                <div class="error center"></div>
+            </div>
+        </div>
+        <div class="main-page invisible">
+            <div class="header unselectable">
+                <img src="logo_small.png" alt="logo_small" class="logo left">
+                <div class="title">School Clinic Management System</div>
+                <button type="button" onclick="logout()">☰</button>
+                <div class="search unselectable">
+                    <input type="search" placeholder="search for students">
+                    <button type="button">search</button>
+                </div>
+            </div>
+            <div class="student-list-window invisible">
+                <div class="grade-selection">
+                    <button class="unselectable" onclick="showSectionList(7)">GRADE 7</button>
+                    <button class="unselectable" onclick="showSectionList(8)">GRADE 8</button>
+                    <button class="unselectable" onclick="showSectionList(9)">GRADE 9</button>
+                    <button class="unselectable" onclick="showSectionList(10)">GRADE 10</button>
+                    <button class="unselectable" onclick="showSectionList(11)">GRADE 11</button>
+                    <button class="unselectable" onclick="showSectionList(12)">GRADE 12</button>
+                </div>
+                <div class="section-list invisible">
+                    <div class="title">SECTIONS</div>
+                    <div class="rect"></div>
+                </div>
+                <div class="student-list invisible">
+                    <div class="boys">
+                        <div class="title">BOYS</div>
+                        <div class="rect"></div>
+                    </div>
+                    <div class="girls">
+                        <div class="title">GIRLS</div>
+                        <div class="rect"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="student-info-window invisible">
+                <div class="menu">
+                    <button type="button" class="unselectable" onclick="showMenu(MENU_TYPE.Data)">SHOW DATA</button>
+                    <button type="button" class="unselectable" onclick="showMenu(MENU_TYPE.Record)">RECORDS</button>
+                    <button type="button" class="unselectable" onclick="showMenu(MENU_TYPE.Print)">PRINT</button>
+                    <button type="button" class="unselectable" onclick="showMenu(MENU_TYPE.Delete)">DELETE</button>
+                    <button type="button" class="unselectable" onclick="backFromInfo()">BACK</button>
+                </div>
+                <div class="data">
+                    <div class="title">DEMOGRAPHIC PROFILE</div>
+                    <div class="student">
+                        <div class="name">
+                            <label>Name: </label>
+                            <input type="text" value="N/A" readonly>
+                        </div>
+                        <div class="grade">
+                            <label>Grade: </label>
+                            <input type="text" value="N/A" readonly>
+                        </div>
+                        <div class="section">
+                            <label>Section: </label>
+                            <input type="text" value="N/A" readonly>
+                        </div>
+                        <div class="address">
+                            <label>Address: </label>
+                            <input type="text" value="N/A" readonly>
+                        </div>
+                        <div class="gender">
+                            <label>Gender: </label>
+                            <input type="text" value="N/A" readonly>
+                        </div>
+                        <div class="religion">
+                            <label>Religion: </label>
+                            <input type="text" value="N/A" readonly>
+                        </div>
+                        <div class="nationality">
+                            <label>Nationality: </label>
+                            <input type="text" value="N/A" readonly>
+                        </div>
+                        <div class="birth-date">
+                            <label>Date of Birth: </label>
+                            <input type="text" value="N/A" readonly>
+                        </div>
+                        <div class="birth-place">
+                            <label>Place of Birth: </label>
+                            <input type="text" value="N/A" readonly>
+                        </div>
+                    </div>
+                    <div class="parents">
+                        <div class="title">NAME OF PARENTS:</div>
+                        <div class="father">
+                            <label>Father: </label>
+                            <input type="text" value="N/A" readonly>
+                        </div>
+                        <div class="father-contact-no">
+                            <label>Contact No: </label>
+                            <input type="text" value="N/A" readonly>
+                        </div>
+                        <div class="mother">
+                            <label>Mother: </label>
+                            <input type="text" value="N/A" readonly>
+                        </div>
+                        <div class="mother-contact-no">
+                            <label>Contact No: </label>
+                            <input type="text" value="N/A" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="record invisible">
+                    record
+                </div>
+                <div class="print invisible">
+                    NOT YET IMPLEMENTED
+                </div>
+                <div class="delete invisible">
+                    <div class="text"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,319 @@
+*, 
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:focus {
+    outline: #131718 solid 2px;
+}
+
+.unselectable {
+   -moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+}
+
+html {
+    font-size: 16px;
+    font-family: "Inter", sans-serif;
+    scroll-behavior: smooth;
+    overflow: hidden;
+}
+
+input {
+    border: none;
+    border-radius: 0.5em;
+    padding: 0.5em;
+}
+
+button {
+    border-radius: 0.5em;
+    background-color: #7BA5DD;
+    display: block;
+}
+
+img {
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.invisible {
+    display: none;
+}
+
+.center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.left {
+    position: absolute;
+    left: 0;
+}
+
+.error {
+    color: red;
+}
+
+.background {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+}
+
+.login-page > .logo {
+    top: 5%;
+    width: 50%;
+    height: 30%;
+}
+
+.login {
+    background-color: #004AAD;
+    border-radius: 1em;
+    top: 40%;
+    width: 30%;
+    height: 50%;
+}
+
+.login > .logo {
+    top: 5%;
+    width: 50%;
+    height: 40%;
+}
+
+.login > input {
+    height: 8%;
+}
+
+.login > .username {
+    top: 50%;
+}
+
+.login > .password {
+    top: 60%;
+}
+
+.login > button {
+    top: 70%;
+    width: 50%;
+    height: 8%;
+    font-weight: bold;
+}
+
+.login > .error {
+    top: 80%;
+    font-size: 8pt;
+    text-align: center;
+}
+
+.header > .logo {
+    width: 12.5%;
+    height: 17.5%;
+    left: 2.5%;
+    top: 2.5%;
+}
+
+.header > .title {
+    font-weight: bold;
+    font-size: 24pt;
+    position: absolute;
+    left: 17.5%;
+    top: 5%;
+}
+
+.header > .search {
+    position: absolute;
+    left: 25%;
+    top: 12%;
+}
+
+.header button {
+    display: inline-block;
+    padding: 0.5em;
+}
+
+.header > button {
+    position: absolute;
+    left: 90%;
+    top: 5%;
+}
+
+.header > .search > input {
+    width: 40vw;
+}
+
+.student-list-window,
+.student-info-window {
+    position: absolute;
+    left: 2.5%;
+    top: 25%;
+    width: 95vw;
+    height: 70vh;
+}
+
+.student-list-window > .grade-selection {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 5%;
+    top: 5%;
+    height: 90%;
+    justify-content: space-around;
+}
+
+.student-list-window > .grade-selection > button {
+    border-radius: 0.5em;
+    font-size: 14pt;
+    font-weight: bold;
+    background-color: #7BA5DD;
+    padding: 0.75em;
+}
+
+.student-list-window > .section-list,
+.student-list-window > .student-list {
+    position: absolute;
+    left: 25%;
+    top: 0;
+    width: 75%;
+    height: 100%;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 0.25em;
+}
+
+.student-list-window > .student-list > .boys {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    height: 100%;
+}
+
+.student-list-window > .student-list > .girls {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 50%;
+    height: 100%;
+}
+
+.student-list-window > .section-list > .title,
+.student-list-window > .student-list > .boys > .title,
+.student-list-window > .student-list > .girls > .title {
+    width: 100%;
+    text-align: center;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    font-weight: bold;
+}
+
+.student-list-window > .section-list > .rect,
+.student-list-window > .student-list > .boys > .rect,
+.student-list-window > .student-list > .girls > .rect {
+    margin: 1em;
+    padding: 1em;
+    border: 2px solid;
+    height: 80%;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.student-list-window > .student-list > .boys > .rect > button,
+.student-list-window > .student-list > .girls > .rect > button,
+.student-list-window > .section-list > .rect > button {
+    font-size: 14pt;
+    padding: 0.5em;
+    width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.student-info-window > .menu {
+    width: 100%;
+    height: 15%;
+    display: flex;
+    gap: 1em;
+}
+
+.student-info-window > .menu > button {
+    padding: 0.5em;
+    margin: 1em;
+}
+
+.student-info-window > :not(.menu) {
+    position: absolute;
+    width: 100%;
+    height: 85%;
+    border: 1px solid black;
+    border-radius: 0.25em;
+    background-color: white;
+    overflow-y: scroll;
+}
+
+.student-info-window > .data {
+    padding: 1em;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.student-info-window > .data > .title {
+    font-weight: bold;
+    font-size: 20pt;
+}
+
+.student-info-window > .data > .student {
+    width: 100%;
+    display: grid;
+    column-gap: 1em;
+    row-gap: 0.5em;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.student-info-window > .data > .student > div:nth-child(3n - 2) {
+    grid-column: 1 / 3;
+}
+
+.student-info-window > .data > .parents {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    width: 100%;
+}
+
+.student-info-window > .data > .student > div,
+.student-info-window > .data > .parents > div {
+    display: flex;
+    gap: 0.5em;
+}
+
+.student-info-window > .data > .student > div > input,
+.student-info-window > .data > .parents > div > input {
+    outline: #131718 solid 2px;
+    font-size: 8pt;
+    flex-grow: 1;
+}
+
+.student-info-window > .data > .student > div > input:focus {
+    outline: black solid 2px;
+}
+
+.student-info-window > .data > .parents > .title {
+    font-weight: bold;
+    font-size: 14pt;
+}
