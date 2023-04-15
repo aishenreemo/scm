@@ -310,17 +310,9 @@ img {
     gap: 1em;
 }
 
-.student-info-window > .print > .title,
 .student-info-window > div > .flex > .title {
     font-weight: bold;
     font-size: 20pt;
-}
-
-.student-info-window > .print > .title {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
 }
 
 .student-info-window > .data > .flex > .student {

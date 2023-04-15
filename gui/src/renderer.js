@@ -5,8 +5,7 @@ const USER_TYPE = Object.freeze({
 const MENU_TYPE = Object.freeze({
     Data: 0,
     Record: 1,
-    Print: 2,
-    Delete: 3,
+    Delete: 2,
 });
 
 const ADMIN_USERNAME = "";
@@ -48,8 +47,9 @@ function login() {
 function logout() {
     loginPage.classList.remove("invisible");
     mainPage.classList.add("invisible");
+    mainPage.querySelector(".header > .options").style.display = "none";
 
-    let panes = [ ".data", ".record", ".print", ".delete" ].map(selectPane);
+    let panes = [ ".data", ".record", ".delete" ].map(selectPane);
 
     for (let i = 0; i < panes.length; i++) {
         let pane = panes[i];
@@ -162,7 +162,7 @@ function selectPane(pane) {
 }
 
 function showMenu(menuType) {
-    let panes = [ ".data", ".record", ".print", ".delete" ].map(selectPane);
+    let panes = [ ".data", ".record", ".delete" ].map(selectPane);
 
     for (let i = 0; i < panes.length; i++) panes[i].classList.add("invisible");
 
@@ -171,7 +171,7 @@ function showMenu(menuType) {
 }
 
 function backFromInfo() {
-    let panes = [ ".data", ".record", ".print", ".delete" ].map(selectPane);
+    let panes = [ ".data", ".record", ".delete" ].map(selectPane);
 
     for (let i = 0; i < panes.length; i++) {
         let pane = panes[i];
@@ -224,4 +224,8 @@ function toggleMenu() {
     } else {
         options.style.display = "flex";
     }
+}
+
+function printStudentData() {
+    window.electronAPI.print("test");
 }
