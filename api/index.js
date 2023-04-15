@@ -24,6 +24,13 @@ app.get("/get", async (_, res) => {
     res.send(await students.find({}).toArray())
 })
 
+app.get("/search/:text", async (req, res) => {
+    let students = client.db("Main").collection("students");
+    let output = await students.aggregate([ { "$search": { "index": "default", "text": { "query": req.params.text, "path": { "wildcard": "*" } } } } ]).toArray();
+
+    res.send(output);
+})
+
 app.get("/sections/:grade_level", async (req, res) => {
     let students = client.db("Main").collection("students");
     let grade_level = parseInt(req.params.grade_level) - 7;
