@@ -24,6 +24,7 @@ let studentListWindow = document.querySelector(".student-list-window");
 let studentInfoWindow = document.querySelector(".student-info-window");
 let sectionList = studentListWindow.querySelector(".section-list");
 let studentList = studentListWindow.querySelector(".student-list");
+let searchList = studentListWindow.querySelector(".search-list");
 let menuDivs = [""]
 
 function login() {
@@ -41,6 +42,7 @@ function login() {
     studentListWindow.classList.remove("invisible");
     studentList.classList.add("invisible");
     sectionList.classList.add("invisible");
+    searchList.classList.add("invisible");
 }
 
 function logout() {
@@ -75,6 +77,7 @@ async function showSectionList(gradeLevel) {
     let rect = sectionList.querySelector(".rect");
 
     studentList.classList.add("invisible");
+    searchList.classList.add("invisible");
     sectionList.classList.remove("invisible");
 
     while (rect.firstChild) rect.firstChild.remove();
@@ -103,6 +106,7 @@ async function sectionOnClick() {
     while (girls.firstChild) girls.firstChild.remove();
 
     sectionList.classList.add("invisible");
+    searchList.classList.add("invisible");
     studentList.classList.remove("invisible");
 
     for (let i = 0; i < json.length; i++) {
@@ -169,4 +173,33 @@ function backFromInfo() {
 
     studentInfoWindow.classList.add("invisible");
     studentListWindow.classList.remove("invisible");
+}
+
+async function search() {
+    let searchValue = mainPage.querySelector(".search > input").value;
+    let apiUrl = `http://localhost:3000/search/${searchValue}`;
+    let response = await fetch(apiUrl);
+    let json = await response.json();
+    let rect = searchList.querySelector(".rect");
+
+    studentInfoWindow.classList.add("invisible");
+    studentListWindow.classList.remove("invisible");
+    sectionList.classList.add("invisible");
+    studentList.classList.add("invisible");
+    searchList.classList.remove("invisible");
+
+    while (rect.firstChild) rect.firstChild.remove();
+
+    for (let i = 0; i < json.length; i++) {
+        let name = json[i].name
+        let button = document.createElement("button");
+
+        button.dataset.name = `${name.last}, ${name.first} ${name.middle}`;
+        button.dataset.id = json[i]._id;
+        button.innerText = button.dataset.name;
+        button.classList.add("unselectable");
+        button.addEventListener("click", studentOnClick);
+
+        rect.appendChild(button);
+    }
 }

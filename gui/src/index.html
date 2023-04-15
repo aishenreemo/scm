@@ -8,7 +8,7 @@
     </head>
     <body>
         <img src="background.png" alt="background" class="background unselectable">
-        <div class="login-page">
+        <div class="login-page invisible">
             <img src="logo.png" alt="logo" class="logo center unselectable">
             <div class="login center">
                 <img src="logo_small.png" alt="logo_small" class="logo center unselectable">
@@ -18,14 +18,14 @@
                 <div class="error center"></div>
             </div>
         </div>
-        <div class="main-page invisible">
+        <div class="main-page">
             <div class="header unselectable">
                 <img src="logo_small.png" alt="logo_small" class="logo left">
                 <div class="title">School Clinic Management System</div>
                 <button type="button" onclick="logout()">☰</button>
                 <div class="search unselectable">
                     <input type="search" placeholder="search for students">
-                    <button type="button">search</button>
+                    <button type="button" onclick="search()">search</button>
                 </div>
             </div>
             <div class="student-list-window invisible">
@@ -51,8 +51,12 @@
                         <div class="rect"></div>
                     </div>
                 </div>
+                <div class="search-list invisible">
+                    <div class="title">SEARCH</div>
+                    <div class="rect"></div>
+                </div>
             </div>
-            <div class="student-info-window invisible">
+            <div class="student-info-window">
                 <div class="menu">
                     <button type="button" class="unselectable" onclick="showMenu(MENU_TYPE.Data)">SHOW DATA</button>
                     <button type="button" class="unselectable" onclick="showMenu(MENU_TYPE.Record)">RECORDS</button>
@@ -61,73 +65,109 @@
                     <button type="button" class="unselectable" onclick="backFromInfo()">BACK</button>
                 </div>
                 <div class="data">
-                    <div class="title">DEMOGRAPHIC PROFILE</div>
-                    <div class="student">
-                        <div class="name">
-                            <label>Name: </label>
-                            <input type="text" value="N/A" readonly>
+                    <div class="flex">
+                        <div class="title">DEMOGRAPHIC PROFILE</div>
+                        <div class="student">
+                            <div class="name">
+                                <label>Name: </label>
+                                <input type="text" value="N/A" readonly>
+                            </div>
+                            <div class="grade">
+                                <label>Grade: </label>
+                                <input type="text" value="N/A" readonly>
+                            </div>
+                            <div class="section">
+                                <label>Section: </label>
+                                <input type="text" value="N/A" readonly>
+                            </div>
+                            <div class="address">
+                                <label>Address: </label>
+                                <input type="text" value="N/A" readonly>
+                            </div>
+                            <div class="gender">
+                                <label>Gender: </label>
+                                <input type="text" value="N/A" readonly>
+                            </div>
+                            <div class="religion">
+                                <label>Religion: </label>
+                                <input type="text" value="N/A" readonly>
+                            </div>
+                            <div class="nationality">
+                                <label>Nationality: </label>
+                                <input type="text" value="N/A" readonly>
+                            </div>
+                            <div class="birth-date">
+                                <label>Date of Birth: </label>
+                                <input type="text" value="N/A" readonly>
+                            </div>
+                            <div class="birth-place">
+                                <label>Place of Birth: </label>
+                                <input type="text" value="N/A" readonly>
+                            </div>
                         </div>
-                        <div class="grade">
-                            <label>Grade: </label>
-                            <input type="text" value="N/A" readonly>
-                        </div>
-                        <div class="section">
-                            <label>Section: </label>
-                            <input type="text" value="N/A" readonly>
-                        </div>
-                        <div class="address">
-                            <label>Address: </label>
-                            <input type="text" value="N/A" readonly>
-                        </div>
-                        <div class="gender">
-                            <label>Gender: </label>
-                            <input type="text" value="N/A" readonly>
-                        </div>
-                        <div class="religion">
-                            <label>Religion: </label>
-                            <input type="text" value="N/A" readonly>
-                        </div>
-                        <div class="nationality">
-                            <label>Nationality: </label>
-                            <input type="text" value="N/A" readonly>
-                        </div>
-                        <div class="birth-date">
-                            <label>Date of Birth: </label>
-                            <input type="text" value="N/A" readonly>
-                        </div>
-                        <div class="birth-place">
-                            <label>Place of Birth: </label>
-                            <input type="text" value="N/A" readonly>
-                        </div>
-                    </div>
-                    <div class="parents">
-                        <div class="title">NAME OF PARENTS:</div>
-                        <div class="father">
-                            <label>Father: </label>
-                            <input type="text" value="N/A" readonly>
-                        </div>
-                        <div class="father-contact-no">
-                            <label>Contact No: </label>
-                            <input type="text" value="N/A" readonly>
-                        </div>
-                        <div class="mother">
-                            <label>Mother: </label>
-                            <input type="text" value="N/A" readonly>
-                        </div>
-                        <div class="mother-contact-no">
-                            <label>Contact No: </label>
-                            <input type="text" value="N/A" readonly>
+                        <div class="parents">
+                            <div class="title">NAME OF PARENTS:</div>
+                            <div class="father">
+                                <label>Father: </label>
+                                <input type="text" value="N/A" readonly>
+                            </div>
+                            <div class="father-contact-no">
+                                <label>Contact No: </label>
+                                <input type="text" value="N/A" readonly>
+                            </div>
+                            <div class="mother">
+                                <label>Mother: </label>
+                                <input type="text" value="N/A" readonly>
+                            </div>
+                            <div class="mother-contact-no">
+                                <label>Contact No: </label>
+                                <input type="text" value="N/A" readonly>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="record invisible">
-                    record
+                    <div class="flex">
+                        <div class="title">RECORD:</div>
+                        <div class="time">
+                            <div class="in">
+                                <label>IN:</label>
+                                <input type="text" value="">
+                            </div>
+                            <div class="out">
+                                <label>OUT:</label>
+                                <input type="text" value="">
+                            </div>
+                            <div class="date">
+                                <label>DATE:</label>
+                                <input type="date" value="">
+                            </div>
+                        </div>
+                        <div class="reason">
+                            <label>REASON/CAUSE:</label>
+                            <textarea rows="4"></textarea>
+                        </div>
+                        <div class="treatment">
+                            <label>TREATMENT:</label>
+                            <textarea rows="4"></textarea>
+                        </div>
+                        <div class="save">
+                            <button type="button">SAVE</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="print invisible">
-                    NOT YET IMPLEMENTED
+                    <div class="title">
+                        NOT YET IMPLEMENTED
+                    </div>
                 </div>
                 <div class="delete invisible">
-                    <div class="text"></div>
+                    <div class="flex">
+                        <div class="title">
+                            ARE YOU SURE<span class="name"></span>?
+                        </div>
+                        <button type="button">CONTINUE</button>
+                    </div>
                 </div>
             </div>
         </div>
