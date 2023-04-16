@@ -47,7 +47,7 @@ app.get("/students/:grade_level/:section", async (req, res) => {
     res.send(output);
 })
 
-app.get("/student/:id", async (req, res) => {
+app.get("/get/:id", async (req, res) => {
     let students = client.db("Main").collection("students");
     let _id = req.params.id;
 
@@ -56,53 +56,20 @@ app.get("/student/:id", async (req, res) => {
     res.send(output);
 })
 
-app.post("/set", async (req, res) => {
+app.post("/delete", async (req, res) => {
+    let students = client.db("Main").collection("students");
+    await students.deleteOne({ _id: new ObjectId(req.body.id) });
+    res.send({ ok: true });
+})
+
+app.post("/delete_all", async (req, res) => {
+    let students = client.db("Main").collection("students");
+    await students.deleteMany({});
+    res.send({ ok: true });
+})
+
+app.post("/add", async (req, res) => {
     let output = { ok: true, msg: "Success" };
-
-    // check for name
-    for (let [key, val] of Object.entries(req.body)) {
-        if (key == "grade_level") continue;
-        if (key == "gender") continue;
-        if (!!val) continue;
-
-        output.ok = false;
-        output.msg = `${key} is required.`;
-        return res.send(output);
-    }
-
-    for (let [key, val] of Object.entries(req.body.birth)) {
-        if (!!val) continue;
-
-        output.ok = false;
-        output.msg = `birth.${key} is required.`;
-        return res.send(output);
-    }
-
-    for (let [key, val] of Object.entries(req.body.name)) {
-        if (key == "suffix") continue;
-        if (val != "") continue;
-
-        output.ok = false;
-        output.msg = `name.${key} is required.`;
-        return res.send(output);
-    }
-
-    for (let [key, val] of Object.entries(req.body.father)) {
-        if (val != "") continue;
-
-        output.ok = false;
-        output.msg = `father.${key} is required.`;
-        return res.send(output);
-    }
-
-    for (let [key, val] of Object.entries(req.body.mother)) {
-        if (val != "") continue;
-
-        output.ok = false;
-        output.msg = `mother.${key} is required.`;
-        return res.send(output);
-    }
-
     let students = client.db("Main").collection("students");
     let find_opts = {
         "name.last": req.body.name.last,
@@ -117,7 +84,7 @@ app.post("/set", async (req, res) => {
             console.log(`New registrar -> ${req.body.name.first} ${req.body.name.last}`);
         } else {
             output.ok = false;
-            output.msg = `Name already exist!`;
+            output.msg = `Already exist!`;
         }
     } catch (err) {
         output.ok = false;

@@ -136,7 +136,7 @@ async function sectionOnClick() {
 }
 
 async function studentOnClick() {
-    let apiUrl = `http://localhost:3000/student/${this.dataset.id}`;
+    let apiUrl = `http://localhost:3000/get/${this.dataset.id}`;
     let response = await fetch(apiUrl);
     let json = await response.json();
 
@@ -150,6 +150,8 @@ async function studentOnClick() {
         ".student > .section": json.section,
         ".student > .gender": json.gender == 0 ? "Male" : "Female",
     };
+
+    data.dataset.id = json._id;
 
     for (let [key, value] of Object.entries(map)) {
         let input = data.querySelector(`${key} > input`);
@@ -228,4 +230,27 @@ function toggleMenu() {
 
 function printStudentData() {
     window.electronAPI.print("test");
+}
+
+async function deleteAll() {
+    await fetch("http://localhost:3000/delete_all", { method: "POST" });
+}
+
+async function deleteStudent() {
+    let data = selectPane(".data");
+    let body = { id: data.dataset.id };
+
+    await fetch("http://localhost:3000/delete", { 
+        method: "POST", 
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body),
+    });
+
+    sectionList.classList.add("invisible");
+    studentList.classList.add("invisible");
+    searchList.classList.add("invisible");
+    backFromInfo();
 }
