@@ -31,8 +31,8 @@ form.addEventListener("submit", async (event) => {
         religion: data["religion"],
         nationality: data["nationality"],
         contact: data["contact"],
-        grade_level: data["grade-level"],
-        gender: data["gender"],
+        grade_level: parseInt(data["grade-level"]),
+        gender: parseInt(data["gender"]),
     };
 
     let error = form.querySelector(".error");

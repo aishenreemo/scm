@@ -149,6 +149,15 @@ async function studentOnClick() {
         ".student > .grade": `${json.grade_level + 7}`,
         ".student > .section": json.section,
         ".student > .gender": json.gender == 0 ? "Male" : "Female",
+        ".student > .address": json.address,
+        ".student > .religion": json.religion,
+        ".student > .nationality": json.nationality,
+        ".student > .birth-date": json.birth?.date,
+        ".student > .birth-place": json.birth?.place,
+        ".parents > .father": json.father?.name,
+        ".parents > .father-contact-no": json.father?.contact,
+        ".parents > .mother": json.mother?.name,
+        ".parents > .mother-contact-no": json.mother?.contact,
     };
 
     data.dataset.id = json._id;
@@ -233,10 +242,14 @@ function printStudentData() {
 }
 
 async function deleteAll() {
+    if (userType == USER_TYPE.Viewer) return;
+
     await fetch("http://localhost:3000/delete_all", { method: "POST" });
 }
 
 async function deleteStudent() {
+    if (userType == USER_TYPE.Viewer) return;
+
     let data = selectPane(".data");
     let body = { id: data.dataset.id };
 
