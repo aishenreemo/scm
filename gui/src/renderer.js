@@ -8,8 +8,8 @@ const MENU_TYPE = Object.freeze({
     Delete: 2,
 });
 
-const ADMIN_USERNAME = "";
-const ADMIN_PASSWORD = "";
+const ADMIN_USERNAME = "admin";
+const ADMIN_PASSWORD = "123";
 const VIEWER_USERNAME = "viewer";
 const VIEWER_PASSWORD = "123";
 
