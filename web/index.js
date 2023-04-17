@@ -8,6 +8,7 @@ form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     let data = Object.fromEntries(new FormData(form));
+
     let serialized = {
         name: {
             last: data["name-last"],
@@ -34,10 +35,75 @@ form.addEventListener("submit", async (event) => {
         contact: data["contact"],
         grade_level: parseInt(data["grade-level"]),
         gender: parseInt(data["gender"]),
+        immunization: {
+            flu: !!data["immunization-has-flu"],
+            hepatitis: !!data["immunization-has-hepatitis"],
+            varicella: !!data["immunization-has-varicella"],
+            meningococcal: !!data["immunization-has-meningococcal"],
+            pneunomococcal: !!data["immunization-has-pneunomococcal"],
+            hpv: !!data["immunization-has-hpv"],
+            remarks: data["immunization-remarks"],
+        },
+        vaccination: {
+            first: data["brand-first-dose"],
+            second: data["brand-second-dose"],
+            booster: data["brand-booster"],
+            remarks: data["brand-remarks"],
+            reason: data["brand-reason"],
+            household: !!parseInt(data["brand-household"]),
+            household_reason: data["brand-household-reason"],
+        },
+        medical_history: {
+            allergies: data["allergies-list"],
+            medication: {
+                has_meds: !!parseInt(data["medication-has-meds"]),
+                name: data["medication-name"],
+                treat: data["medication-treat"],
+                dose: data["medication-dose"],
+            },
+            conditions: {
+                headache: data["condition-headache"],
+                toothache: data["condition-toothache"],
+                fever: data["condition-fever"],
+                rhinitis: data["condition-rhinitis"],
+                stomach_ache: data["condition-stomach-ache"],
+                others: data["condition-others"],
+            },
+            ongoing_treatment: data["treatment-current"],
+            sport_limitations: data["pe-cant-reason"],
+            visual_limitations: {
+                glasses: !!data["visual-glasses"],
+                contact_lenses: !!data["visual-contact-lenses"],
+            },
+            language_limitations: data["hearing-details"],
+            other_limitations: {
+                backaches: !!data["other-backaches"],
+                chest_pain: !!data["other-chest-pain"],
+                cough: !!data["other-cough"],
+                cyclic_vomiting: !!data["other-cyclic-vomiting"],
+                depression: !!data["other-depression"],
+                difficulty_of_breathing: !!data["other-difficulty-of-breathing"],
+                dizziness: !!data["other-dizziness"],
+                epistaxis: !!data["other-epistaxis"],
+                eczema: !!data["other-eczema"],
+                fainting_spells: !!data["other-fainting-spells"],
+                headaches: !!data["other-headaches"],
+                insomias: !!data["other-insomias"],
+                joint_pains: !!data["other-joint-pains"],
+                recurrent_abdominal_pain: !!data["other-recurrent-abdominal-pain"],
+                seizure: !!data["other-seizure"],
+                urinary_problems: !!data["other-urinary-problems"],
+                weight_lost: !!data["other-weight-lost"],
+                others: !!data["other-others"],
+            },
+            drugs_taken: "",
+            other_info: !!data["other-info"],
+        },
+        records: [],
     };
 
     let error = form.querySelector(".error");
-    console.log(serialized);
+    console.log(JSON.stringify(serialized, null, 4));
 
     try {
         let options = {
