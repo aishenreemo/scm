@@ -36,6 +36,15 @@ button {
     padding: 0.5em;
 }
 
+fieldset {
+    padding: 1em;
+}
+
+textarea {
+    padding: 0.5em;
+    display: block;
+}
+
 .invisible {
     display: none;
 }
@@ -70,6 +79,12 @@ button {
 
 .error {
     color: red;
+}
+
+.form input,
+.form select {
+    margin: 0.5em;
+    padding: 0.5em;
 }
 
 .data-content-privacy > .grid {
@@ -160,11 +175,13 @@ button {
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 1em;
+    row-gap: 0.4em;
     column-gap: 1em;
     grid-template-columns: repeat(4, 1fr);
+    overflow-y: scroll;
 }
 
-.form > .grid > div:not(.message) {
+.form > .grid > div:not(.message):not(.ignore) {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -180,7 +197,14 @@ button {
 .form > .grid > div > select,
 .form > .grid > div > input {
     width: 100%;
-    padding: 0.5em;
+}
+
+.form > .grid > .ignore {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    grid-column: 1 / 5;
+    padding: 2em;
 }
 
 .form > .grid > .title,

@@ -2,6 +2,7 @@ const form = document.querySelector(".form.page");
 const thankYou = document.querySelector(".thank-you.page");
 const dataContentPrivacy = document.querySelector(".data-content-privacy.page");
 const studentHealthRecord = document.querySelector(".student-health-record.page");
+const formGradeSection = document.querySelector(".form > .grid > .grade-section > select");
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -87,4 +88,30 @@ function showThankYou() {
     studentHealthRecord.classList.add("invisible");
     dataContentPrivacy.classList.add("invisible");
     thankYou.classList.remove("invisible");
+}
+
+function createOptionList(gradeLevel) {
+    let sectionsArray = [
+        ["Elijah", "Hezekiah", "Jehoshaphat", "Josiah", "Jotham", "Nehemiah"],
+        ["Amethyst", "Beryl", "Chrysolite", "Emerald", "Jasper", "Onyx"],
+        ["Bethany", "Capernaum", "Galilee", "Gethsemane", "Jerusalem", "Samaria"],
+        ["Apollos", "Epaphras", "Philemon", "Silvanus", "Timothy", "Onesimus"],
+        ["Algum", "Myrtle" , "Willow", "Almond", "Poplar", "Terebinth", "Tamarix" , "Caper", "Carob", "Cassia", "Cedar", "Citron", "Crocus", "Cypress"],
+        ["Carmel", "Horeb", "Moriah", "Ararat", "Ephraim", "Gerizim", "Olivet" ,"Gilead", "Hermon", "Nebo", "Sinai", "Tabor", "Zion"],
+    ];
+
+    while (formGradeSection.firstChild) {
+        formGradeSection.firstChild.remove();
+    }
+
+    let sections = sectionsArray[gradeLevel];
+    for (let i = 0; i < sections.length; i++) {
+        let section = sections[i];
+        let option = document.createElement("option");
+
+        option.value = section;
+        option.innerHTML = section;
+
+        formGradeSection.appendChild(option);
+    }
 }
