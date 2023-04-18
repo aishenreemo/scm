@@ -8,7 +8,7 @@
     </head>
     <body>
         <img src="background.png" alt="background" class="background unselectable">
-        <div class="login-page">
+        <div class="login-page invisible">
             <img src="logo.png" alt="logo" class="logo center unselectable">
             <div class="login center">
                 <img src="logo_small.png" alt="logo_small" class="logo center unselectable">
@@ -18,7 +18,7 @@
                 <div class="error center"></div>
             </div>
         </div>
-        <div class="main-page invisible">
+        <div class="main-page">
             <div class="header unselectable">
                 <img src="logo_small.png" alt="logo_small" class="logo left">
                 <div class="title">School Clinic Management System</div>
@@ -34,7 +34,7 @@
                     <button type="button" onclick="search()">search</button>
                 </div>
             </div>
-            <div class="student-list-window invisible">
+            <div class="student-list-window">
                 <div class="grade-selection">
                     <button class="unselectable" onclick="showSectionList(7)">GRADE 7</button>
                     <button class="unselectable" onclick="showSectionList(8)">GRADE 8</button>
@@ -62,7 +62,7 @@
                     <div class="rect"></div>
                 </div>
             </div>
-            <div class="student-info-window">
+            <div class="student-info-window invisible">
                 <div class="menu">
                     <button type="button" class="unselectable" onclick="showMenu(MENU_TYPE.Data)">SHOW DATA</button>
                     <button type="button" class="unselectable" onclick="showMenu(MENU_TYPE.Record)">RECORDS</button>
@@ -130,6 +130,267 @@
                                 <input type="text" value="N/A" readonly>
                             </div>
                         </div>
+                        <div class="other">
+                            <div class="title">IMMUNIZATIONS:</div>
+                            <div class="body">1. Immunizations that the child has received:</div>
+                            <fieldset>
+                                <legend>Vaccine</legend>
+                                <div class="immunization-has-flu">
+                                    <input type="checkbox" readonly>
+                                    <label>Flu</label>
+                                </div>
+                                <div class="immunization-has-hepatitis">
+                                    <input type="checkbox" readonly>
+                                    <label>Hepatitis A</label>
+                                </div>
+                                <div class="immunization-has-varicella">
+                                    <input type="checkbox" readonly>
+                                    <label>Varicella</label>
+                                </div>
+                                <div class="immunization-has-meningococcal">
+                                    <input type="checkbox" readonly>
+                                    <label>Meningococcal</label>
+                                </div>
+                                <div class="immunization-has-pneunomococcal">
+                                    <input type="checkbox" readonly>
+                                    <label>Pneumococcal</label>
+                                </div>
+                                <div class="immunization-has-hpv">
+                                    <input type="checkbox" readonly>
+                                    <label>HPV (anti-cervical ca)</label>
+                                </div><br>
+                                <div class="immunization-remarks">
+                                    <label>REMARKS</label>
+                                    <textarea rows="2" readonly>N/A</textarea>
+                                </div>
+                            </fieldset>
+                            <div class="body">2. COVID-19 Vaccine that the child has received:</div>
+                            <fieldset>
+                                <legend>Brand name of COVID Vaccine: </legend>
+                                <div class="brand-first-dose">
+                                    <label>1st DOSE:</label>
+                                    <input type="text" readonly>
+                                </div>
+                                <div class="brand-second-dose">
+                                    <label>2nd DOSE:</label>
+                                    <input type="text" readonly>
+                                </div>
+                                <div class="brand-booster">
+                                    <label>BOOSTER:</label>
+                                    <input type="text" readonly>
+                                </div><br>
+                                <div class="brand-remarks">
+                                    <label>REMARKS</label>
+                                    <textarea rows="2" readonly>N/A</textarea>
+                                </div><br>
+                                <div name class="brand-reason">
+                                    <label>Reason if not vaccinated:</label>
+                                    <textarea rows="2" readonly>N/A</textarea>
+                                </div><br>
+                                <div>
+                                    <label>Are members of the household vaccinated?:</label>
+                                    <div class="brand-household">
+                                        <input type="radio" value="1" name="brand-household" readonly>
+                                        <label>Yes</label>
+                                    </div>
+                                    <div class="brand-household">
+                                        <input type="radio" value="0" name="brand-household" readonly>
+                                        <label>No</label>
+                                    </div>
+                                </div><br>
+                                <div class="brand-household-reason">
+                                    <label>Reason why members of household are vaccinated.</label>
+                                    <textarea rows="2" readonly>N/A</textarea>
+                                </div>
+                            </fieldset>
+                            <div class="title">MEDICAL HISTORY:</div>
+                            <div class="body">1. ALLERGIES</div>
+                            <fieldset>
+                                <legend>Kindly list your child's allergies. Include foods, drugs, plants and animals.</legend>
+                                <div>
+                                    <label>ALLERGIES</label>
+                                    <textarea rows="4" name="allergies-list" readonly></textarea>
+                                </div><br>
+                            </fieldset>
+                            <div class="body">2. MEDICATION</div>
+                            <fieldset>
+                                <legend>Child taking medication at home on a daily basis.</legend>
+                                <div>
+                                    <input type="radio" name="medication-has-meds" value="1" readonly>
+                                    <label>Yes</label>
+                                </div>
+                                <div>
+                                    <input type="radio" name="medication-has-meds" value="0" readonly>
+                                    <label>No</label>
+                                </div><br>
+                                <div>
+                                    <label>Medication:</label>
+                                    <input type="text" name="medication-name" readonly>
+                                </div>
+                                <div>
+                                    <label>Used to treat:</label>
+                                    <input type="text" name="medication-treat" readonly>
+                                </div>
+                                <div>
+                                    <label>Dose/Time:</label>
+                                    <input type="text" name="medication-dose" readonly>
+                                </div><br>
+                            </fieldset>
+                            <div class="body">3. Medicine can be given to the child by the nurse:</div>
+                            <fieldset>
+                                <legend>CONDITIONS:</legend>
+                                <div>
+                                    <label>Headache:</label>
+                                    <input type="text" name="condition-headache" readonly>
+                                </div>
+                                <div>
+                                    <label>Toothache:</label>
+                                    <input type="text" name="condition-toothache" readonly>
+                                </div>
+                                <div>
+                                    <label>Fever:</label>
+                                    <input type="text" name="condition-fever" readonly>
+                                </div>
+                                <div>
+                                    <label>Allergy/rhinitis:</label>
+                                    <input type="text" name="condition-rhinitis" readonly>
+                                </div>
+                                <div>
+                                    <label>Stomach ache:</label>
+                                    <input type="text" name="condition-stomach-ache" readonly>
+                                </div><br>
+                                <div>
+                                    <label>Others: Please specify</label>
+                                    <textarea rows="2" name="condition-others" readonly>N/A</textarea>
+                                </div>
+                            </fieldset>
+                            <div class="body">4. Is your child receiving current or ongoing treatment for any medical, surgical or psychological condition?</div>
+                            <textarea rows="3" name="treatment-current" readonly>N/A</textarea>
+                            <div class="body">5. Is there any reason why your child cannot participate in Physical Education classes or in intramural/interscholastic sports? </div>
+                            <fieldset>
+                                <legend>If yes, please give details:</legend>
+                                <div>
+                                    <input type="radio" name="pe-cant-participate" value="1" readonly>
+                                    <label>Yes</label>
+                                </div>
+                                <div>
+                                    <input type="radio" name="pe-cant-participate" value="0" readonly>
+                                    <label>No</label>
+                                </div><br>
+                                <textarea rows="2" name="pe-cant-reason" readonly>N/A</textarea>
+                            </fieldset>
+                            <div class="body">6. Visual Difficulties</div>
+                            <fieldset>
+                                <div>
+                                    <input type="radio" name="visual-has-difficulties" value="1" required="" readonly>
+                                    <label>Yes</label>
+                                </div>
+                                <div>
+                                    <input type="radio" name="visual-has-difficulties" value="0" readonly>
+                                    <label>No</label>
+                                </div><br>
+                                <div>
+                                    <input type="checkbox" name="visual-contact-lenses" readonly>
+                                    <label>Contact Lenses</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="visual-glasses" readonly>
+                                    <label>Glasses</label>
+                                </div>
+                            </fieldset>
+                            <div class="body">7. Any previous difficulties with Hearing, Speech or Language Development?</div>
+                            <fieldset>
+                                <legend>If yes, please give details:</legend>
+                                <div>
+                                    <input type="radio" name="hearing-has-difficulties" value="1" readonly>
+                                    <label>Yes</label>
+                                </div>
+                                <div>
+                                    <input type="radio" name="hearing-has-difficulties" value="0" readonly>
+                                    <label>No</label>
+                                </div><br>
+                                <textarea rows="2" name="hearing-details" readonly>N/A</textarea>
+                            </fieldset>
+                            <div class="body">8. Please indicate if your child has had the following conditions:</div>
+                            <fieldset>
+                                <div>
+                                    <input type="checkbox" name="other-backaches" readonly>
+                                    <label>Backaches</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="other-chest-pain" readonly>
+                                    <label>Chest Pain</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="other-cough" readonly>
+                                    <label>Cough</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="other-cyclic-vomiting" readonly>
+                                    <label>Cyclic Vomiting</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="other-depression" readonly>
+                                    <label>Depression</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="other-difficulty-of-breathing" readonly>
+                                    <label>Difficulty of Breathing</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="other-dizziness" readonly>
+                                    <label>Dizziness</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="other-epistaxis" readonly>
+                                    <label>Epistaxis</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="other-eczema" readonly>
+                                    <label>Eczema</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="other-fainting-spells" readonly>
+                                    <label>Fainting Spells</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="other-headaches" readonly>
+                                    <label>Headaches</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="other-insomias" readonly>
+                                    <label>Insomias</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="other-joint-pains" readonly>
+                                    <label>Joint Pains</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="other-recurrent-abdominal-pain" readonly>
+                                    <label>Recurrent Abdominal Pain</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="other-seizure" readonly>
+                                    <label>Seizure</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="other-urinary-problems" readonly>
+                                    <label>Urinary Problems</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="other-weight-lost" readonly>
+                                    <label>Weight loss</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="other-others" readonly>
+                                    <label>Others</label>
+                                </div>
+                            </fieldset>
+                            <div class="body">9. Please state any regulated/prescription drugs that your child is taking at the moment or might have taken in the past.</div>
+                            <textarea rows="3" name="drugs-taken" readonly>N/A</textarea>
+                            <div class="body">10. 0ther medical/heaith information you may wish to include that may help us understand your child's health needs:</div>
+                            <textarea rows="3" name="other-info" readonly>N/A</textarea>
+                        </div>
                     </div>
                 </div>
                 <div class="record invisible">
@@ -138,11 +399,11 @@
                         <div class="time">
                             <div class="in">
                                 <label>IN:</label>
-                                <input type="text" value="">
+                                <input type="time" value="">
                             </div>
                             <div class="out">
                                 <label>OUT:</label>
-                                <input type="text" value="">
+                                <input type="time" value="">
                             </div>
                             <div class="date">
                                 <label>DATE:</label>

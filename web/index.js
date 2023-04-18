@@ -96,7 +96,7 @@ form.addEventListener("submit", async (event) => {
                 weight_lost: !!data["other-weight-lost"],
                 others: !!data["other-others"],
             },
-            drugs_taken: "",
+            drugs_taken: !!data["drugs-taken"],
             other_info: !!data["other-info"],
         },
         records: [],

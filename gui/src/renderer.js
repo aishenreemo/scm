@@ -145,26 +145,103 @@ async function studentOnClick() {
 
     let data = selectPane(".data");
     let map = {
-        ".student > .name": `${json.name.last}, ${json.name.first} ${json.name.middle} ${json.name.suffix}`,
-        ".student > .grade": `${json.grade_level + 7}`,
-        ".student > .section": json.section,
-        ".student > .gender": json.gender == 0 ? "Male" : "Female",
-        ".student > .address": json.address,
-        ".student > .religion": json.religion,
-        ".student > .nationality": json.nationality,
-        ".student > .birth-date": json.birth?.date,
-        ".student > .birth-place": json.birth?.place,
-        ".parents > .father": json.father?.name,
-        ".parents > .father-contact-no": json.father?.contact,
-        ".parents > .mother": json.mother?.name,
-        ".parents > .mother-contact-no": json.mother?.contact,
+        ".name > input": `${json.name.last}, ${json.name.first} ${json.name.middle} ${json.name.suffix}`,
+        ".grade > input": `${json.grade_level + 7}`,
+        ".section > input": json.section,
+        ".gender > input": json.gender == 0 ? "Male" : "Female",
+        ".address > input": json.address,
+        ".religion > input": json.religion,
+        ".nationality > input": json.nationality,
+        ".birth-date > input": json.birth?.date,
+        ".birth-place > input": json.birth?.place,
+        ".father > input": json.father?.name,
+        ".father-contact-no > input": json.father?.contact,
+        ".mother > input": json.mother?.name,
+        ".mother-contact-no > input": json.mother?.contact,
+        ".immunization-has-flu > input": json.immunization?.flu,
+        ".immunization-has-hepatitis > input": json.immunization?.hepatitis,
+        ".immunization-has-varicella > input": json.immunization?.varicella,
+        ".immunization-has-meningococcal > input": json.immunization?.meningococcal,
+        ".immunization-has-pneunomococcal > input": json.immunization?.pneunomococcal,
+        ".immunization-has-hpv > input": json.immunization?.hpv,
+        ".immunization-remarks > textarea": json.immunization?.remarks,
+        ".brand-first-dose > input": json.vaccination?.first,
+        ".brand-second-dose > input": json.vaccination?.second,
+        ".brand-booster > input": json.vaccination?.booster,
+        ".brand-remarks > textarea": json.vaccination?.remarks,
+        ".brand-reason > textarea": json.vaccination?.reason,
+        ".brand-household > input[value='1']": json.vaccination?.household,
+        ".brand-household > input[value='0']": !json.vaccination?.household,
+        ".brand-household-reason > textarea": json.vaccination?.household_reason,
+        "textarea[name='allergies-list']": json.medical_history?.allergies,
+        "input[name='medication-has-meds'][value='1']": json.medical_history?.medication?.has_meds,
+        "input[name='medication-has-meds'][value='0']": !json.medical_history?.medication?.has_meds,
+        "input[name='medication-name']": json.medical_history?.medication?.name,
+        "input[name='medication-treat']": json.medical_history?.medication?.treat,
+        "input[name='medication-dose']": json.medical_history?.medication?.dose,
+        "input[name='condition-headache']": json.medical_history?.conditions?.headache,
+        "input[name='condition-toothache']": json.medical_history?.conditions?.toothache,
+        "input[name='condition-fever']": json.medical_history?.conditions?.fever,
+        "input[name='condition-rhinitis']": json.medical_history?.conditions?.rhinitis,
+        "input[name='condition-stomach-ache']": json.medical_history?.conditions?.stomach_ache,
+        "textarea[name='condition-others']": json.medical_history?.conditions?.others,
+        "textarea[name='treatment-current']": json.medical_history?.ongoing_treatment,
+        "input[name='pe-cant-participate'][value='1']": !json.medical_history?.sport_limitations,
+        "input[name='pe-cant-participate'][value='0']": !!json.medical_history?.sport_limitations,
+        "textarea[name='pe-cant-reason']": json.medical_history?.sport_limitations,
+        "input[name='visual-has-difficulties'][value='1']": json.medical_history?.visual_limitations?.glasses || json.medical_history?.visual_limitations?.contact_lenses,
+        "input[name='visual-has-difficulties'][value='0']": !json.medical_history?.visual_limitations?.glasses && !json.medical_history?.visual_limitations?.contact_lenses,
+        "input[name='visual-contact-lenses']": json.medical_history?.visual_limitations?.contact_lenses,
+        "input[name='visual-glasses']": json.medical_history?.visual_limitations?.glasses,
+        "input[name='hearing-has-difficulties'][value='1']": !json.medical_history?.language_limitations,
+        "input[name='hearing-has-difficulties'][value='0']": !!json.medical_history?.language_limitations,
+        "textarea[name='hearing-details']": json.medical_history?.language_limitations,
+        "input[name='other-backaches']": json.medical_history?.other_limitations?.backaches,
+        "input[name='other-chest-pain']": json.medical_history?.other_limitations?.chest_pain,
+        "input[name='other-cough']": json.medical_history?.other_limitations?.cough,
+        "input[name='other-cyclic-vomiting']": json.medical_history?.other_limitations?.cyclic_vomiting,
+        "input[name='other-depression']": json.medical_history?.other_limitations?.depression,
+        "input[name='other-difficulty-of-breathing']": json.medical_history?.other_limitations?.difficulty_of_breathing,
+        "input[name='other-dizziness']": json.medical_history?.other_limitations?.dizziness,
+        "input[name='other-epistaxis']": json.medical_history?.other_limitations?.epistaxis,
+        "input[name='other-eczema']": json.medical_history?.other_limitations?.eczema,
+        "input[name='other-fainting-spells']": json.medical_history?.other_limitations?.fainting_spells,
+        "input[name='other-headaches']": json.medical_history?.other_limitations?.headaches,
+        "input[name='other-insomias']": json.medical_history?.other_limitations?.insomias,
+        "input[name='other-joint-pains']": json.medical_history?.other_limitations?.join_pains,
+        "input[name='other-recurrent-abdominal-pain']": json.medical_history?.other_limitations?.recurrent_abdominal_pain,
+        "input[name='other-seizure']": json.medical_history?.other_limitations?.seizure,
+        "input[name='other-urinary-problems']": json.medical_history?.other_limitations?.urinary_problems,
+        "input[name='other-weight-lost']": json.medical_history?.other_limitations?.weight_lost,
+        "input[name='other-others']": json.medical_history?.other_limitations?.others,
+        "textarea[name='drugs-taken']": json.medical_history?.drugs_taken,
+        "textarea[name='other-info']": json.medical_history?.other_info,
     };
 
     data.dataset.id = json._id;
 
     for (let [key, value] of Object.entries(map)) {
-        let input = data.querySelector(`${key} > input`);
-        input.value = value || "N/A";
+        let element = data.querySelector(key);
+
+        if (element.tagName == "INPUT" && element.getAttribute("type") == "checkbox") {
+            element.checked = value;
+            continue;
+        }
+
+        if (element.tagName == "INPUT" && element.getAttribute("type") == "radio") {
+            element.checked = value;
+            continue;
+        }
+
+        if (element.tagName == "INPUT") {
+            element.value = value || "N/A";
+
+            continue;
+        } 
+
+        if (element.tagName == "TEXTAREA") {
+            element.innerText = value || "N/A";
+        }
     }
 }
 

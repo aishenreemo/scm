@@ -31,8 +31,19 @@ input {
     padding: 0.5em;
 }
 
+input[type="checkbox"][readonly],
+input[type="radio"][readonly] {
+    pointer-events: none;
+}
+
 textarea {
     resize: none;
+    padding: 0.5em;
+    display: block;
+    width: 100%;
+}
+
+fieldset {
     padding: 0.5em;
 }
 
@@ -68,6 +79,15 @@ img {
 
 .error {
     color: red;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 14pt;
+}
+
+.body {
+    font-size: 12pt;
 }
 
 .background {
@@ -155,6 +175,10 @@ img {
     position: absolute;
     left: 90%;
     top: 5%;
+}
+.title {
+    font-weight: bold;
+    font-size: 14pt;
 }
 
 .header > .search > input {
@@ -356,11 +380,10 @@ img {
     gap: 0.5em;
 }
 
+.student-info-window > .data input:not([type="checkbox"]):not([type="radio"]),
 .student-info-window > .record > .flex > .reason > input,
 .student-info-window > .record > .flex > .treatment > input,
-.student-info-window > .record > .flex > .time > div > input,
-.student-info-window > .data > .flex > .student > div > input,
-.student-info-window > .data > .flex > .parents > div > input {
+.student-info-window > .record > .flex > .time > div > input {
     outline: #131718 solid 2px;
     font-size: 8pt;
     flex-grow: 1;
@@ -370,11 +393,27 @@ img {
     outline: black solid 2px;
 }
 
-.student-info-window > .data > .flex > .parents > .title {
-    font-weight: bold;
-    font-size: 14pt;
-}
-
 .student-info-window > .record > .flex > .save {
     align-self: self-end;
+}
+
+.student-info-window > .data > .flex > .other {
+    align-self: start;
+    width: 100%;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.student-info-window > .data > .flex > .other {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.student-info-window > .data > .flex > .other input[type="text"] {
+    width: 50%;
+    margin-bottom: 0.5em;
 }
