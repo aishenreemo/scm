@@ -65,7 +65,8 @@
             <div class="student-info-window invisible">
                 <div class="menu">
                     <button type="button" class="unselectable" onclick="showMenu(MENU_TYPE.Data)">SHOW DATA</button>
-                    <button type="button" class="unselectable" onclick="showMenu(MENU_TYPE.Record)">RECORDS</button>
+                    <button type="button" class="unselectable" onclick="showMenu(MENU_TYPE.AddRecord)">ADD RECORD</button>
+                    <button type="button" class="unselectable" onclick="showMenu(MENU_TYPE.ListRecords)">LIST RECORDS</button>
                     <button type="button" class="unselectable" onclick="printStudentData()">PRINT</button>
                     <button type="button" class="unselectable" onclick="showMenu(MENU_TYPE.Delete)">DELETE</button>
                     <button type="button" class="unselectable" onclick="backFromInfo()">BACK</button>
@@ -393,34 +394,40 @@
                         </div>
                     </div>
                 </div>
-                <div class="record invisible">
+                <div class="add invisible">
+                    <form>
+                        <div class="flex">
+                            <div class="title">RECORD:</div>
+                            <div class="time">
+                                <div class="in">
+                                    <label>IN:</label>
+                                    <input type="time" name="in" required>
+                                </div>
+                                <div class="out">
+                                    <label>OUT:</label>
+                                    <input type="time" name="out" required>
+                                </div>
+                                <div class="date">
+                                    <label>DATE:</label>
+                                    <input type="date" name="date" required>
+                                </div>
+                            </div>
+                            <div class="reason">
+                                <label>REASON/CAUSE:</label>
+                                <textarea rows="4" name="reason" required></textarea>
+                            </div>
+                            <div class="treatment">
+                                <label>TREATMENT:</label>
+                                <textarea rows="4" name="treatment" required></textarea>
+                            </div>
+                            <div class="save">
+                                <button type="submit">SAVE</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="records invisible">
                     <div class="flex">
-                        <div class="title">RECORD:</div>
-                        <div class="time">
-                            <div class="in">
-                                <label>IN:</label>
-                                <input type="time" value="">
-                            </div>
-                            <div class="out">
-                                <label>OUT:</label>
-                                <input type="time" value="">
-                            </div>
-                            <div class="date">
-                                <label>DATE:</label>
-                                <input type="date" value="">
-                            </div>
-                        </div>
-                        <div class="reason">
-                            <label>REASON/CAUSE:</label>
-                            <textarea rows="4"></textarea>
-                        </div>
-                        <div class="treatment">
-                            <label>TREATMENT:</label>
-                            <textarea rows="4"></textarea>
-                        </div>
-                        <div class="save">
-                            <button type="button">SAVE</button>
-                        </div>
                     </div>
                 </div>
                 <div class="delete invisible">

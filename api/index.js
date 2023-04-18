@@ -94,6 +94,20 @@ app.post("/add", async (req, res) => {
     res.send(output);
 });
 
+app.post("/add_record", async (req, res) => {
+    let students = client.db("Main").collection("students");
+    let filter = { _id: new ObjectId(req.body.id) };
+
+    let output = await students.findOne(filter);
+    let records = output.records ? [...output.records] : [];
+
+    records.push(req.body.data);
+
+    await students.updateOne(filter, { $set: { records }});
+
+    res.send({ ok: true });
+});
+
 client.connect().then(() => {
     console.log("Database is up and running.");
 }).catch(console.error);

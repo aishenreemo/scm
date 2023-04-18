@@ -317,7 +317,7 @@ img {
     overflow-y: scroll;
 }
 
-.student-info-window > .record > .flex {
+.student-info-window > .add > form > .flex {
     align-items: start;
 }
 
@@ -326,7 +326,7 @@ img {
     height: 100%;
 }
 
-.student-info-window > div > .flex {
+.student-info-window > div .flex {
     padding: 1em;
     display: flex;
     flex-direction: column;
@@ -351,9 +351,9 @@ img {
     grid-column: 1 / 3;
 }
 
-.student-info-window > .record > .flex > .reason,
-.student-info-window > .record > .flex > .treatment,
-.student-info-window > .record > .flex > .time,
+.student-info-window > .add > form > .flex > .reason,
+.student-info-window > .add > form > .flex > .treatment,
+.student-info-window > .add > form > .flex > .time,
 .student-info-window > .data > .flex > .parents {
     display: flex;
     flex-direction: column;
@@ -364,16 +364,16 @@ img {
     width: 100%;
 }
 
-.student-info-window > .record > .flex > .reason,
-.student-info-window > .record > .flex > .treatment {
+.student-info-window > .add > form > .flex > .reason,
+.student-info-window > .add > form > .flex > .treatment {
     width: 80%;
 }
 
-.student-info-window > .record > .flex > .time {
+.student-info-window > .add > form > .flex > .time {
     width: 40%;
 }
 
-.student-info-window > .record > .flex > .time > div,
+.student-info-window > .add > form > .flex > .time > div,
 .student-info-window > .data > .flex > .student > div,
 .student-info-window > .data > .flex > .parents > div {
     display: flex;
@@ -381,9 +381,9 @@ img {
 }
 
 .student-info-window > .data input:not([type="checkbox"]):not([type="radio"]),
-.student-info-window > .record > .flex > .reason > input,
-.student-info-window > .record > .flex > .treatment > input,
-.student-info-window > .record > .flex > .time > div > input {
+.student-info-window > .add > form > .flex > .reason > input,
+.student-info-window > .add > form > .flex > .treatment > input,
+.student-info-window > .add > form > .flex > .time > div > input {
     outline: #131718 solid 2px;
     font-size: 8pt;
     flex-grow: 1;
@@ -393,7 +393,7 @@ img {
     outline: black solid 2px;
 }
 
-.student-info-window > .record > .flex > .save {
+.student-info-window > .add > form > .flex > .save {
     align-self: self-end;
 }
 

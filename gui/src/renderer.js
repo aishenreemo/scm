@@ -4,8 +4,9 @@ const USER_TYPE = Object.freeze({
 });
 const MENU_TYPE = Object.freeze({
     Data: 0,
-    Record: 1,
-    Delete: 2,
+    AddRecord: 1,
+    ListRecords: 2,
+    Delete: 3,
 });
 
 const ADMIN_USERNAME = "admin";
@@ -24,6 +25,7 @@ let studentInfoWindow = document.querySelector(".student-info-window");
 let sectionList = studentListWindow.querySelector(".section-list");
 let studentList = studentListWindow.querySelector(".student-list");
 let searchList = studentListWindow.querySelector(".search-list");
+let addRecordForm = selectPane(".add > form");
 let menuDivs = [""]
 
 function login() {
@@ -49,7 +51,7 @@ function logout() {
     mainPage.classList.add("invisible");
     mainPage.querySelector(".header > .options").style.display = "none";
 
-    let panes = [ ".data", ".record", ".delete" ].map(selectPane);
+    let panes = [ ".data", ".add", ".records", ".delete" ].map(selectPane);
 
     for (let i = 0; i < panes.length; i++) {
         let pane = panes[i];
@@ -186,15 +188,15 @@ async function studentOnClick() {
         "input[name='condition-stomach-ache']": json.medical_history?.conditions?.stomach_ache,
         "textarea[name='condition-others']": json.medical_history?.conditions?.others,
         "textarea[name='treatment-current']": json.medical_history?.ongoing_treatment,
-        "input[name='pe-cant-participate'][value='1']": !json.medical_history?.sport_limitations,
-        "input[name='pe-cant-participate'][value='0']": !!json.medical_history?.sport_limitations,
+        "input[name='pe-cant-participate'][value='1']": !!json.medical_history?.sport_limitations,
+        "input[name='pe-cant-participate'][value='0']": !json.medical_history?.sport_limitations,
         "textarea[name='pe-cant-reason']": json.medical_history?.sport_limitations,
         "input[name='visual-has-difficulties'][value='1']": json.medical_history?.visual_limitations?.glasses || json.medical_history?.visual_limitations?.contact_lenses,
         "input[name='visual-has-difficulties'][value='0']": !json.medical_history?.visual_limitations?.glasses && !json.medical_history?.visual_limitations?.contact_lenses,
         "input[name='visual-contact-lenses']": json.medical_history?.visual_limitations?.contact_lenses,
         "input[name='visual-glasses']": json.medical_history?.visual_limitations?.glasses,
-        "input[name='hearing-has-difficulties'][value='1']": !json.medical_history?.language_limitations,
-        "input[name='hearing-has-difficulties'][value='0']": !!json.medical_history?.language_limitations,
+        "input[name='hearing-has-difficulties'][value='1']": !!json.medical_history?.language_limitations,
+        "input[name='hearing-has-difficulties'][value='0']": !json.medical_history?.language_limitations,
         "textarea[name='hearing-details']": json.medical_history?.language_limitations,
         "input[name='other-backaches']": json.medical_history?.other_limitations?.backaches,
         "input[name='other-chest-pain']": json.medical_history?.other_limitations?.chest_pain,
@@ -250,16 +252,18 @@ function selectPane(pane) {
 }
 
 function showMenu(menuType) {
-    let panes = [ ".data", ".record", ".delete" ].map(selectPane);
+    let panes = [ ".data", ".add", ".records", ".delete" ].map(selectPane);
 
-    for (let i = 0; i < panes.length; i++) panes[i].classList.add("invisible");
+    for (let i = 0; i < panes.length; i++) {
+        panes[i].classList.add("invisible");
+    }
 
     let pane = panes[menuType];
     pane.classList.remove("invisible");
 }
 
 function backFromInfo() {
-    let panes = [ ".data", ".record", ".delete" ].map(selectPane);
+    let panes = [ ".data", ".add", ".records", ".delete" ].map(selectPane);
 
     for (let i = 0; i < panes.length; i++) {
         let pane = panes[i];
@@ -349,3 +353,26 @@ async function deleteStudent() {
     searchList.classList.add("invisible");
     backFromInfo();
 }
+
+addRecordForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (userType == USER_TYPE.Viewer) return;
+
+    let data = Object.fromEntries(new FormData(addRecordForm));
+    let id = selectPane(".data").dataset.id;
+
+    let body = { data, id };
+
+    await fetch("http://localhost:3000/add_record", { 
+        method: "POST", 
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body),
+    });
+
+    addRecordForm.reset();
+    showMenu(MENU_TYPE.Data);
+});
