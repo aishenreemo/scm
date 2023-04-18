@@ -314,8 +314,13 @@ function toggleMenu() {
     }
 }
 
-function printStudentData() {
-    window.electronAPI.print("test");
+async function printStudentData() {
+    let id = selectPane(".data").dataset.id;
+    let apiUrl = `http://localhost:3000/get/${id}`;
+    let response = await fetch(apiUrl);
+    let json = await response.json();
+
+    window.electronAPI.print(json);
 }
 
 async function deleteAll() {
