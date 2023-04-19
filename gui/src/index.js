@@ -50,6 +50,22 @@ function markdown(json) {
     let gender = json.gender ? "Female" : "Male";
     let checked = (x) => x ? "checked" : "";
     let visual_limitations = json.medical_history?.visual_limitations?.glasses || json.medical_history?.visual_limitations?.contact_lenses;
+
+    let records = `<div class="page-break"></div>\n\n# RECORDS\n\n`;
+
+    for (let i = 0; i < (json.records?.length || 0); i++) {
+        let record = json.records[i];
+
+        records += `<fieldset>
+    <legend>RECORD #${i}</legend>
+    <div><label>IN:</label><input type="time" value="${record.in}"></div>
+    <div><label>OUT:</label><input type="time" value="${record.out}"></div>
+    <div><label>DATE:</label><input type="date" value="${record.date}"></div>
+    <div class="block"><label>REASON/CAUSE:</label><textarea>${record.reason}</textarea></div>
+    <div class="block"><label>TREATMENT:</label><textarea>${record.treatment}</textarea></div>
+</fieldset>`;
+        records += "<br>\n";
+    }
     
     return `---
 stylesheet: https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css
@@ -201,5 +217,6 @@ pdf_options:
     <legend>0ther medical information that may help understand the child's health needs:</legend>
     <div class="block"><textarea>${json.medical_history?.other_info || "N/A"}</textarea></div>
 </fieldset><br>
+${json.records ? records : ""}
 `
 }
