@@ -288,6 +288,8 @@ function updateListRecords(json) {
 
 function deleteRecordFunc(i) {
     return async () => {
+        if (userType == USER_TYPE.Viewer) return;
+
         let id = selectPane(".data").dataset.id;
         let body = { i, id };
 
@@ -299,6 +301,12 @@ function deleteRecordFunc(i) {
             },
             body: JSON.stringify(body),
         });
+
+        let apiUrl = `http://localhost:3000/get/${id}`;
+        let response = await fetch(apiUrl);
+        let json = await response.json();
+        updateListRecords(json);
+        showMenu(MENU_TYPE.Data);
     }
 }
 
