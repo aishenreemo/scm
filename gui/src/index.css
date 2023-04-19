@@ -417,3 +417,38 @@ img {
     width: 50%;
     margin-bottom: 0.5em;
 }
+
+.records > .flex {
+    flex-direction: column;
+    width: 100%;
+    gap: 1.5em;
+}
+
+.record {
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 0.5em;
+    padding: 0.5em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.record > div {
+    display: flex;
+    gap: 1em;
+}
+
+.record > div.block {
+    flex-direction: column;
+    gap: 1em;
+}
+
+.record > div > input {
+    width: 100%;
+    outline: #131718 solid 2px;
+}
+
+.record > div > textarea {
+    overflow-y: scroll;
+}

@@ -49,6 +49,7 @@ function login() {
 function logout() {
     loginPage.classList.remove("invisible");
     mainPage.classList.add("invisible");
+    addRecordForm.reset();
     mainPage.querySelector(".header > .options").style.display = "none";
 
     let panes = [ ".data", ".add", ".records", ".delete" ].map(selectPane);
@@ -146,6 +147,7 @@ async function studentOnClick() {
     studentListWindow.classList.add("invisible");
 
     let data = selectPane(".data");
+
     let map = {
         ".name > input": `${json.name.last}, ${json.name.first} ${json.name.middle} ${json.name.suffix}`,
         ".grade > input": `${json.grade_level + 7}`,
@@ -244,6 +246,59 @@ async function studentOnClick() {
         if (element.tagName == "TEXTAREA") {
             element.innerText = value || "N/A";
         }
+    }
+
+    updateListRecords(json);
+}
+
+function updateListRecords(json) {
+    let records = selectPane(".records > .flex");
+    while (records.firstChild) records.firstChild.remove();
+
+    for (let i = 0; i < (json.records?.length || 0); i++) {
+        let record = json.records[i];
+        let div = document.createElement("div");
+
+        div.classList.add("record");
+        div.innerHTML = `
+            <div><label>IN:</label><input type="time" value="${record.in}" readonly></div>
+            <div><label>OUT:</label><input type="time" value="${record.out}" readonly></div>
+            <div><label>DATE:</label><input type="date" value="${record.date}" readonly></div>
+            <div class="block">
+            <label>REASON/CAUSE:</label>
+            <textarea rows="4" readonly>${record.reason}</textarea>
+            </div>
+            <div class="block">
+            <label>TREATMENT:</label>
+            <textarea rows="4" readonly>${record.treatment}</textarea>
+            </div>
+            `;
+
+        let button = document.createElement("button");
+
+        button.addEventListener("click", deleteRecordFunc(i));
+        button.setAttribute("type", "button");
+        button.innerText = "DELETE";
+
+        div.appendChild(button);
+        records.appendChild(div);
+    }
+
+}
+
+function deleteRecordFunc(i) {
+    return async () => {
+        let id = selectPane(".data").dataset.id;
+        let body = { i, id };
+
+        await fetch("http://localhost:3000/delete_record", { 
+            method: "POST", 
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body),
+        });
     }
 }
 
@@ -374,5 +429,10 @@ addRecordForm.addEventListener("submit", async (event) => {
     });
 
     addRecordForm.reset();
+
+    let apiUrl = `http://localhost:3000/get/${id}`;
+    let response = await fetch(apiUrl);
+    let json = await response.json();
+    updateListRecords(json);
     showMenu(MENU_TYPE.Data);
 });
