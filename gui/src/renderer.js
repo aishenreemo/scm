@@ -71,12 +71,23 @@ function validateCredentials() {
 
     let valid = false;
 
+    let adminOnlyElements = document.querySelectorAll(".admin-only");
     if (usernameDiv.value == ADMIN_USERNAME && passwordDiv.value == ADMIN_PASSWORD) {
         userType = USER_TYPE.Admin;
         valid = true;
+
+        for (let i = 0; i < adminOnlyElements.length; i++) {
+            let element = adminOnlyElements[i];
+            element.style.display = "inline";
+        }
     } else if (usernameDiv.value == VIEWER_USERNAME && passwordDiv.value == VIEWER_PASSWORD) {
         userType = USER_TYPE.Viewer;
         valid = true;
+
+        for (let i = 0; i < adminOnlyElements.length; i++) {
+            let element = adminOnlyElements[i];
+            element.style.display = "none";
+        }
     }
 
     usernameDiv.value = "";

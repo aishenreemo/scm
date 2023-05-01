@@ -26,7 +26,7 @@
                     <button type="button" onclick="toggleMenu()">☰</button>
                 </div>
                 <div class="options">
-                    <button type="button" onclick="deleteAll()">DELETE ALL</button>
+                    <button type="button" class="admin-only" onclick="deleteAll()">DELETE ALL</button>
                     <button type="button" onclick="logout()">LOGOUT</button>
                 </div>
                 <div class="search unselectable">
@@ -65,10 +65,10 @@
             <div class="student-info-window invisible">
                 <div class="menu">
                     <button type="button" class="unselectable" onclick="showMenu(MENU_TYPE.Data)">SHOW DATA</button>
-                    <button type="button" class="unselectable" onclick="showMenu(MENU_TYPE.AddRecord)">ADD RECORD</button>
+                    <button type="button" class="unselectable admin-only" onclick="showMenu(MENU_TYPE.AddRecord)">ADD RECORD</button>
                     <button type="button" class="unselectable" onclick="showMenu(MENU_TYPE.ListRecords)">LIST RECORDS</button>
                     <button type="button" class="unselectable" onclick="printStudentData()">PRINT</button>
-                    <button type="button" class="unselectable" onclick="showMenu(MENU_TYPE.Delete)">DELETE</button>
+                    <button type="button" class="unselectable admin-only" onclick="showMenu(MENU_TYPE.Delete)">DELETE</button>
                     <button type="button" class="unselectable" onclick="backFromInfo()">BACK</button>
                 </div>
                 <div class="data">
