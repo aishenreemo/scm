@@ -14,9 +14,19 @@
                 <img src="logo_small.png" alt="logo_small" class="logo center unselectable">
                 <input type="text" placeholder="username" value="" class="username center">
                 <input type="password" placeholder="password" value="" class="password center">
-                <button type="button" class="center unselectable" onclick="login()">LOGIN</button>
+                <button type="button" class="center unselectable login-btn" onclick="login()">LOGIN</button>
                 <div class="error center"></div>
+                <button type="button" class="center unselectable forgot invisible" onclick="">Forgot Password?</button>
             </div>
+            <button type="button" class="create">Create an account</button>
+        </div>
+        <div class="register login center invisible admin-only" style="z-index: 1;">
+            <img src="logo_small.png" alt="logo_small" class="logo center unselectable">
+            <input type="email" placeholder="email" value="" class="username center">
+            <input type="password" placeholder="password" value="" class="password center">
+            <button type="button" class="center unselectable login-btn register-btn"">Register</button>
+            <div class="error center"></div>
+            <button type="button" class="unselectable hide" onclick="document.querySelector('.register').classList.add('invisible')">X</button>
         </div>
         <div class="main-page invisible">
             <div class="header unselectable">
@@ -25,7 +35,8 @@
                 <div class="menu">
                     <button type="button" onclick="toggleMenu()">☰</button>
                 </div>
-                <div class="options">
+                <div class="options" style="z-index: 1;">
+                    <button type="button" class="create-admin admin-only" onclick="document.querySelector('.register').classList.remove('invisible')">Register an Admin</button>
                     <button type="button" class="admin-only" onclick="deleteAll()">DELETE ALL</button>
                     <button type="button" onclick="logout()">LOGOUT</button>
                 </div>

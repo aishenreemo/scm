@@ -1,6 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import nodemailer from "nodemailer";
+import bcrypt from "bcrypt";
+import { v4 as uuidv4 } from "uuid";
 
 import { MongoClient, ObjectId, ServerApiVersion } from "mongodb";
 
@@ -17,6 +20,145 @@ const client = new MongoClient(process.env.MONGO_DB_URL, {
 
 app.use(express.json());
 app.use(cors());
+
+const generateResetToken = () => uuidv4();
+const sendEmail = async (to, subject, text) => {
+    const transporter = nodemailer.createTransport({
+        service: "smtp.protonmail.com",
+        auth: {
+            user: "aish3n@protonmail.com",
+            pass: process.env.PASS,
+        },
+    });
+
+    const mailOptions = {
+        from: "aish3n@protonmail.com",
+        to,
+        subject,
+        text,
+    };
+
+    await transporter.sendMail(mailOptions);
+};
+
+// Create a new user
+app.post("/register", async (req, res) => {
+    try {
+        const { email, password, admin } = req.body;
+        const db = client.db("Main");
+        const existingUser = await db.collection("users").findOne({ email });
+
+        if (!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) {
+            console.log(email);
+            return res.status(401).json({ message: "Invalid email" });
+        }
+
+        if (existingUser) {
+            return res.status(409).json({ message: "User already exists" });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const user = {
+            email,
+            password: hashedPassword,
+            admin: admin == "true",
+        };
+
+        await db.collection("users").insertOne(user);
+
+        res.status(201).json({ message: "User created successfully" });
+
+    } catch (error) {
+        console.error("Error during registration:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+// Login
+app.post("/login", async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const db = client.db("Main");
+        const user = await db.collection("users").findOne({ email });
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            return res.status(403).json({ message: "Invalid email" });
+        }
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const passwordMatch = await bcrypt.compare(password, user.password);
+
+        if (!passwordMatch) {
+            return res.status(401).json({ message: "Invalid credentials" });
+        }
+
+        res.status(200).json({ message: "Login successful", user });
+    } catch (error) {
+        console.error("Error during login:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+// Forgot Password
+app.post("/forgot-password", async (req, res) => {
+    try {
+        const { email } = req.body;
+        const db = client.db("Main");
+        const user = await db.collection("users").findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const resetToken = generateResetToken();
+
+        await db.collection("users").updateOne(
+            { email },
+            { $set: { resetToken } }
+        );
+
+        const emailText = `TOKEN: ${resetToken}`;
+
+        await sendEmail(email, "Password Reset", emailText);
+
+        res.status(200).json({ message: "Password reset email sent" });
+    } catch (error) {
+        console.error("Error during forgot password:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+// Reset Password
+app.post("/reset-password/:token", async (req, res) => {
+    try {
+        const { token } = req.params;
+        const { password } = req.body;
+        const db = client.db("Main");
+
+        const user = await db.collection("users").findOne({ resetToken: token });
+
+        if (!user) {
+            return res.status(404).json({ message: "Invalid or expired token" });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        await db.collection("users").updateOne(
+            { resetToken: token },
+            { $set: { password: hashedPassword, resetToken: null } }
+        );
+
+        res.status(200).json({ message: "Password reset successful" });
+
+    } catch (error) {
+        console.error("Error during password reset:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
 
 app.get("/search/:text", async (req, res) => {
     let students = client.db("Main").collection("students");

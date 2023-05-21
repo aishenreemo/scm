@@ -49,7 +49,7 @@ fieldset {
 
 button {
     border-radius: 0.5em;
-    background-color: #7BA5DD;
+    background-color: #7BA5DD !important;
     display: block;
     padding: 0.5em;
 }
@@ -63,7 +63,7 @@ img {
 }
 
 .invisible {
-    display: none;
+    display: none !important;
 }
 
 .center {
@@ -131,9 +131,27 @@ img {
     top: 60%;
 }
 
-.login > button {
+.login > .login-btn {
     top: 70%;
     width: 50%;
+    height: 8%;
+    font-weight: bold;
+    padding: 0;
+}
+
+.login > .forgot {
+    top: 90%;
+    width: 55%;
+    height: 8%;
+    font-weight: bold;
+    padding: 0;
+}
+
+.login > .hide {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    width: 8%;
     height: 8%;
     font-weight: bold;
     padding: 0;
@@ -451,4 +469,10 @@ img {
 
 .record > div > textarea {
     overflow-y: scroll;
+}
+
+.create {
+    position: absolute;
+    bottom: 1%;
+    right: 1%;
 }

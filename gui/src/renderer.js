@@ -28,15 +28,16 @@ let searchList = studentListWindow.querySelector(".search-list");
 let addRecordForm = selectPane(".add > form");
 let menuDivs = [""]
 
-function login() {
+async function login() {
     let errorDiv = document.querySelector(".login > .error");
 
-    if (!validateCredentials()) {
+    if (!(await validateCredentials())) {
         errorDiv.innerText = "Invalid username or password.";
 
         return;
     }
 
+    errorDiv.innerText = "";
     loginPage.classList.add("invisible");
     mainPage.classList.remove("invisible");
     studentInfoWindow.classList.add("invisible");
@@ -49,6 +50,7 @@ function login() {
 function logout() {
     loginPage.classList.remove("invisible");
     mainPage.classList.add("invisible");
+    document.querySelector(".register").classList.add("invisible");
     addRecordForm.reset();
     mainPage.querySelector(".header > .options").style.display = "none";
 
@@ -65,7 +67,7 @@ function logout() {
     }
 }
 
-function validateCredentials() {
+async function validateCredentials() {
     let usernameDiv = document.querySelector(".login > .username");
     let passwordDiv = document.querySelector(".login > .password");
 
@@ -88,9 +90,33 @@ function validateCredentials() {
             let element = adminOnlyElements[i];
             element.style.display = "none";
         }
+    } else {
+        let response = await fetch("http://localhost:3000/login", { 
+            method: "POST", 
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email: usernameDiv.value, password: passwordDiv.value }),
+        });
+        let data = await response.json();
+
+        if (response.status == 200) {
+            userType = data.user.admin ? USER_TYPE.Admin : USER_TYPE.Viewer;
+
+            for (let i = 0; i < adminOnlyElements.length; i++) {
+                let element = adminOnlyElements[i];
+                element.style.display = data.user.admin ? "inline" : "none";
+            }
+            usernameDiv.value = "";
+            valid = true;
+        } else if (response.status == 401) {
+            document.querySelector(".forgot").classList.remove("invisible");
+        } else {
+            usernameDiv.value = "";
+        }
     }
 
-    usernameDiv.value = "";
     passwordDiv.value = "";
 
     return valid;
@@ -455,3 +481,46 @@ addRecordForm.addEventListener("submit", async (event) => {
     updateListRecords(json);
     showMenu(MENU_TYPE.Data);
 });
+
+document.querySelector(".create").addEventListener("click", () => {
+    const register = document.querySelector(".register");
+    register.classList.remove("invisible");
+    register.dataset.admin = false;
+})
+
+document.querySelector(".create-admin").addEventListener("click", () => {
+    const register = document.querySelector(".register");
+    register.classList.remove("invisible");
+    register.dataset.admin = true;
+})
+
+document.querySelector(".register-btn").addEventListener("click", async () => {
+    const register = document.querySelector(".register");
+    const email = register.querySelector(".username").value;
+    const password = register.querySelector(".password").value;
+    const admin = register.dataset.admin;
+
+    try {
+        const response = await fetch("http://localhost:3000/register", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email,
+                password,
+                admin,
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.status == 201) return logout();
+
+        register.querySelector(".error").innerText = data.message;
+    } catch (err) {
+        console.error(err);
+    }
+})
