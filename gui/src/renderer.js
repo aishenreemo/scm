@@ -51,6 +51,8 @@ function logout() {
     loginPage.classList.remove("invisible");
     mainPage.classList.add("invisible");
     document.querySelector(".register").classList.add("invisible");
+    document.querySelector(".forgot").classList.add("invisible");
+    document.querySelector(".reset").classList.add("invisible");
     addRecordForm.reset();
     mainPage.querySelector(".header > .options").style.display = "none";
 
@@ -524,3 +526,55 @@ document.querySelector(".register-btn").addEventListener("click", async () => {
         console.error(err);
     }
 })
+
+document.querySelector(".forgot").addEventListener("click", async () => {
+    const login = document.querySelector(".login");
+    const reset = document.querySelector(".reset");
+    const email = login.querySelector(".username").value;
+
+    try {
+        const response = await fetch("http://localhost:3000/forgot-password", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email })
+        });
+
+        const data = await response.json();
+        login.querySelector(".error").innerText = data.message;
+        reset.classList.remove("invisible");
+    } catch (err) {
+        console.error(err);
+        register.querySelector(".error").innerText = data.message;
+    }
+});
+
+document.querySelector(".reset-btn").addEventListener("click", async () => {
+    const login = document.querySelector(".login");
+    const reset = document.querySelector(".reset");
+    const token = reset.querySelector(".token").value;
+    const password = reset.querySelector(".new-password").value;
+
+    try {
+        if (!password || !token) throw new Error("Invalid.");
+        const response = await fetch("http://localhost:3000/reset-password", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ token, password })
+        });
+
+        const data = await response.json();
+        logout();
+        login.querySelector(".error").innerText = data.message;
+    } catch (err) {
+        console.error(err);
+        reset.querySelector(".error").innerText = err;
+    }
+});

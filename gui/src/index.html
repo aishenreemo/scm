@@ -16,9 +16,15 @@
                 <input type="password" placeholder="password" value="" class="password center">
                 <button type="button" class="center unselectable login-btn" onclick="login()">LOGIN</button>
                 <div class="error center"></div>
-                <button type="button" class="center unselectable forgot invisible" onclick="">Forgot Password?</button>
+                <button type="button" class="center unselectable forgot invisible">Forgot Password?</button>
             </div>
             <button type="button" class="create">Create an account</button>
+            <div class="reset invisible">
+                <input type="text" placeholder="token" value="" class="token">
+                <input type="password" placeholder="new-password" value="" class="new-password">
+                <button type="button" class="unselectable reset-btn">RESET PASSWORD</button>
+                <div class="error"></div>
+            </div>
         </div>
         <div class="register login center invisible admin-only" style="z-index: 1;">
             <img src="logo_small.png" alt="logo_small" class="logo center unselectable">
@@ -37,13 +43,18 @@
                 </div>
                 <div class="options" style="z-index: 1;">
                     <button type="button" class="create-admin admin-only" onclick="document.querySelector('.register').classList.remove('invisible')">Register an Admin</button>
-                    <button type="button" class="admin-only" onclick="deleteAll()">DELETE ALL</button>
+                    <button type="button" class="admin-only delete-all" onclick="document.querySelector('.delete-all-confirmation').classList.remove('invisible')">DELETE ALL</button>
                     <button type="button" onclick="logout()">LOGOUT</button>
                 </div>
                 <div class="search unselectable">
                     <input type="search" placeholder="search for students">
                     <button type="button" onclick="search()">search</button>
                 </div>
+            </div>
+            <div class="delete-all-confirmation invisible">
+                <div class="text">DELETE ALL?</div>
+                <button class="unselectable delete-all-confirm" onclick="deleteAll()">YES</button>
+                <button class="unselectable delete-all-reject" onclick="document.querySelector('.delete-all-confirmation').classList.add('invisible')">NO</button>
             </div>
             <div class="student-list-window">
                 <div class="grade-selection">

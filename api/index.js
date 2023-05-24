@@ -24,15 +24,15 @@ app.use(cors());
 const generateResetToken = () => uuidv4();
 const sendEmail = async (to, subject, text) => {
     const transporter = nodemailer.createTransport({
-        service: "smtp.protonmail.com",
+        service: "gmail",
         auth: {
-            user: "aish3n@protonmail.com",
+            user: "stanyui166@gmail.com",
             pass: process.env.PASS,
         },
     });
 
     const mailOptions = {
-        from: "aish3n@protonmail.com",
+        from: "stanyui166@gmail.com",
         to,
         subject,
         text,
@@ -121,11 +121,9 @@ app.post("/forgot-password", async (req, res) => {
             { $set: { resetToken } }
         );
 
-        const emailText = `TOKEN: ${resetToken}`;
+        await sendEmail(email, "Password Reset", `TOKEN: ${resetToken}`);
 
-        await sendEmail(email, "Password Reset", emailText);
-
-        res.status(200).json({ message: "Password reset email sent" });
+        res.status(200).json({ message: "Password reset token sent. Please check your email." });
     } catch (error) {
         console.error("Error during forgot password:", error);
         res.status(500).json({ message: "Internal server error" });
@@ -133,10 +131,9 @@ app.post("/forgot-password", async (req, res) => {
 });
 
 // Reset Password
-app.post("/reset-password/:token", async (req, res) => {
+app.post("/reset-password", async (req, res) => {
     try {
-        const { token } = req.params;
-        const { password } = req.body;
+        const { token, password } = req.body;
         const db = client.db("Main");
 
         const user = await db.collection("users").findOne({ resetToken: token });
